@@ -95,7 +95,7 @@ describe "hChannel", ->
         hMessage.payload.should.be.equal("Hello #TΘ$Δ")
         done()
 
-      hActor.h_onMessageInternal msg
+      hActor._h_onMessageInternal msg
 
     it "should publish message with quickFilter", (done) ->
       msg = hActor.buildMessage("urn:localhost:channel", "string", "Hello #TΘ$Δ", {timeout:0, headers:{h_quickFilter:"unit"}})
@@ -106,6 +106,6 @@ describe "hChannel", ->
 
       hChild.onMessage = (hMessage) ->
 
-      hActor.h_onMessageInternal msg
+      hActor._h_onMessageInternal msg
 
 

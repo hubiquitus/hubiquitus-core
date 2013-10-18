@@ -24,7 +24,7 @@ describe "hFilewatchAdapter", ->
       hActor = new Actor topology
       hMessage = hActor.h_buildSignal(hActor.actor, "start", {})
       hMessage.sent = new Date().getTime()
-      hActor.h_onMessageInternal(hMessage)
+      hActor._h_onMessageInternal(hMessage)
 
     after () ->
       hActor.h_tearDown()
@@ -66,7 +66,7 @@ describe "hFilewatchAdapter", ->
 
       hMessage = hActor2.h_buildSignal(hActor2.actor, "start", {})
       hMessage.sent = new Date().getTime()
-      hActor2.h_onMessageInternal(hMessage)
+      hActor2._h_onMessageInternal(hMessage)
 
       hActor2.onMessage = (hMessage) ->
         valid = 1

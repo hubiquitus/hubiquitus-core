@@ -65,7 +65,7 @@ describe "schemas", ->
       if level is "debug" and /^syntax error in hMessage : /.test(msg)
         done()
 
-    hActor.h_onMessageInternal hMsg
+    hActor._h_onMessageInternal hMsg
   ###
 
 UUID = ->

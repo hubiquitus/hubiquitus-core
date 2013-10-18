@@ -41,7 +41,7 @@ describe "hTimerAdapter", ->
       hActor = new Actor topology
       hMessage = hActor.h_buildSignal(hActor.actor, "start", {})
       hMessage.sent = new Date().getTime()
-      hActor.h_onMessageInternal(hMessage)
+      hActor._h_onMessageInternal(hMessage)
 
     after () ->
       hActor.h_tearDown()
@@ -69,7 +69,7 @@ describe "hTimerAdapter", ->
       hActor = new Actor topology
       hMessage = hActor.h_buildSignal(hActor.actor, "start", {})
       hMessage.sent = new Date().getTime()
-      hActor.h_onMessageInternal(hMessage)
+      hActor._h_onMessageInternal(hMessage)
 
     after () ->
       hActor.h_tearDown()

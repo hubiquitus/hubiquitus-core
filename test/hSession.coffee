@@ -71,7 +71,7 @@ describe "hSession", ->
       hActor.filter.should.have.property('eq')
       done()
     setCmd.sent = new Date().getTime()
-    hActor.h_onMessageInternal setCmd
+    hActor._h_onMessageInternal setCmd
 
 
   it "should return hResult ok with an array as result if user has subscriptions", (done) ->
@@ -83,7 +83,7 @@ describe "hSession", ->
       hMessage.payload.result.length.should.be.equal(1)
       done()
     getSubsCmd.sent = new Date().getTime()
-    hActor.h_onMessageInternal getSubsCmd
+    hActor._h_onMessageInternal getSubsCmd
 
 
   it "should return hResult OK when correctly unsubscribe", (done) ->
@@ -94,7 +94,7 @@ describe "hSession", ->
       hActor.getSubscriptions().length.should.be.equal(0)
       done()
     unSubCmd.sent = new Date().getTime()
-    hActor.h_onMessageInternal unSubCmd
+    hActor._h_onMessageInternal unSubCmd
 
 
   it "should return hResult NOT_AVAILABLE when unknow command is send", (done) ->
@@ -105,7 +105,7 @@ describe "hSession", ->
       hMessage.payload.should.have.property('result').and.match(/Command not available/)
       done();
     otherCmd.sent = new Date().getTime()
-    hActor.h_onMessageInternal otherCmd
+    hActor._h_onMessageInternal otherCmd
 
   it "should always override publisher before sending", (done) ->
     send = hActor.send

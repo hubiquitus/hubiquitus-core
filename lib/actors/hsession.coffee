@@ -97,14 +97,14 @@ class Session extends Actor
     return {result: true, error: ""}
 
   #
-  # @overload h_onMessageInternal(hMessage)
+  # @overload _h_onMessageInternal(hMessage)
   #   Method called when the actor receive a hMessage.
   #   If the actor attribute is "session", it will be modify with the actor URN
   #   Check hMessage format, catch hSignal, Apply filter then call onMessage.
   #   @private
   #   @param hMessage {object} the hMessage receive
   #
-  h_onMessageInternal: (hMessage) ->
+  _h_onMessageInternal: (hMessage) ->
     if hMessage.actor is "session"
       hMessage.actor = @actor
     super

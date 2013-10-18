@@ -55,7 +55,7 @@ describe "hTwitterAdapter", ->
       hActor = new Actor topology
       msg = hActor.h_buildSignal(hActor.actor, "start", {})
       msg.sent = new Date().getTime()
-      hActor.h_onMessageInternal(msg)
+      hActor._h_onMessageInternal(msg)
 
     beforeEach () ->
 

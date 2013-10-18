@@ -61,7 +61,7 @@ describe "hActor", ->
         hMessage.payload.should.have.property "status", hResultStatus.OK
         done()
 
-      hActor.h_onMessageInternal hMsg
+      hActor._h_onMessageInternal hMsg
 
     describe "#eqFilter()", ->
       it "should not respond if hMessage doesn't respect \"eq\" filter", (done) ->
@@ -76,7 +76,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -94,7 +94,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -115,7 +115,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -137,7 +137,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"eq\" filter ", (done) ->
         filter = eq:
@@ -152,7 +152,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#neFilter()", ->
@@ -168,7 +168,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -186,7 +186,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -207,7 +207,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -229,7 +229,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"ne\" filter ", (done) ->
         filter = ne:
@@ -244,7 +244,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#gtFilter()", ->
@@ -260,7 +260,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -278,7 +278,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -296,7 +296,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -317,7 +317,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -338,7 +338,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"gt\" filter ", (done) ->
         filter = gt:
@@ -353,7 +353,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#gteFilter()", ->
@@ -369,7 +369,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -387,7 +387,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -405,7 +405,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -426,7 +426,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -447,7 +447,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"gte\" filter ", (done) ->
         filter = gte:
@@ -463,7 +463,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#ltFilter()", ->
@@ -479,7 +479,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -497,7 +497,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -515,7 +515,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -536,7 +536,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -558,7 +558,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"lt\" filter ", (done) ->
         filter = lt:
@@ -574,7 +574,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#lteFilter()", ->
@@ -590,7 +590,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -608,7 +608,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -626,7 +626,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -647,7 +647,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -669,7 +669,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"lte\" filter ", (done) ->
         filter = lte:
@@ -685,7 +685,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#inFilter()", ->
@@ -700,7 +700,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -718,7 +718,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -736,7 +736,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -756,7 +756,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -777,7 +777,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"in\" filter ", (done) ->
         filter = in:
@@ -793,7 +793,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#ninFilter()", ->
@@ -808,7 +808,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -826,7 +826,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -844,7 +844,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -864,7 +864,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -885,7 +885,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"nin\" filter ", (done) ->
         filter = nin:
@@ -901,7 +901,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#andFilter()", ->
@@ -921,7 +921,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -943,7 +943,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -967,7 +967,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"and\" filter ", (done) ->
         filter = and: [
@@ -988,7 +988,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#orFilter()", ->
@@ -1008,7 +1008,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1030,7 +1030,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1054,7 +1054,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"or\" filter ", (done) ->
         filter = or: [
@@ -1075,7 +1075,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#norFilter()", ->
@@ -1095,7 +1095,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1119,7 +1119,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"nor\" filter ", (done) ->
         filter = nor: [
@@ -1140,7 +1140,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
 
     describe "#notFilter()", ->
@@ -1156,7 +1156,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1179,7 +1179,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1203,7 +1203,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"not\" filter ", (done) ->
         filter = not:
@@ -1224,7 +1224,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
     describe "#geoFilter()", ->
       it "should return an error message if hMessage don't respect \"geo\" filter", (done) ->
@@ -1245,7 +1245,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1269,7 +1269,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1294,7 +1294,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1319,7 +1319,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1345,7 +1345,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
     describe "#booleanFilter()", ->
       it "should return an error message if filter boolean = false", (done) ->
@@ -1357,7 +1357,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1374,7 +1374,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
     describe "#domainFilter()", ->
       it "should return an error message if hMessage don't respect \"domain\" filter", (done) ->
@@ -1386,7 +1386,7 @@ describe "hActor", ->
         hActor.send = (hMessage) ->
           msgSent++
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
         setTimeout( ->
           msgSent.should.be.eql 0
@@ -1403,7 +1403,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
       it "should return OK if hMessage respect \"domain\" filter with '$mydomain'", (done) ->
         filter = domain: "$mydomain"
@@ -1415,7 +1415,7 @@ describe "hActor", ->
           hMessage.payload.should.have.property "status", hResultStatus.OK
           done()
 
-        hActor.h_onMessageInternal hMsg
+        hActor._h_onMessageInternal hMsg
 
   describe "sharedProperties", ->
     actorChild = undefined

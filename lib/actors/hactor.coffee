@@ -234,7 +234,7 @@ class Actor extends EventEmitter
       delete @msgToBeAnswered[hMessage.ref]
       cb hMessage
     else
-      @h_onMessageInternal hMessage, callback or (hMessageResult) =>
+      @_h_onMessageInternal hMessage, callback or (hMessageResult) =>
         @send hMessageResult
 
   #
@@ -244,7 +244,7 @@ class Actor extends EventEmitter
   # @param hMessage {object} the hMessage receive
   # @param callback {function} callback to call
   #
-  h_onMessageInternal: (hMessage, callback) ->
+  _h_onMessageInternal: (hMessage, callback) ->
     @_h_makeLog "trace", "hub-126", {msg: "message received", hMessage: hMessage}
     try
       result = validator.validateHMessage(hMessage)

@@ -74,14 +74,14 @@ describe "hTracker", ->
     describe "Peer-info", ->
       it "should add peer when receive peer-info", (done) ->
         info = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-info", params:{peerType:"hactor", peerId:config.logins[2].urn, peerStatus:"started", peerInbox:[]}})
-        hActor.h_onMessageInternal info
+        hActor._h_onMessageInternal info
         hActor.peers.length.should.be.equal(1)
         done()
 
       it "should remove peer when receive peer-info stopping", (done) ->
         hActor.stopAlert = (actor)->
         info = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-info", params:{peerType:"hactor", peerId:config.logins[2].urn, peerStatus:"stopped", peerInbox:[]}})
-        hActor.h_onMessageInternal info
+        hActor._h_onMessageInternal info
         hActor.peers.length.should.be.equal(0)
         done()
 
@@ -90,7 +90,7 @@ describe "hTracker", ->
         hActor.timeoutDelay = 300
         hActor.stopAlert = (actor)->
         info = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-info", params:{peerType:"hactor", peerId:config.logins[2].urn, peerStatus:"started", peerInbox:[]}})
-        hActor.h_onMessageInternal info
+        hActor._h_onMessageInternal info
         hActor.peers.length.should.be.equal(1)
         setTimeout(=>
           hActor.peers.length.should.be.equal(0)
@@ -113,7 +113,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[1].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send NOT_AVAILABLE when the acteur is not started but not have socket_in adapter", (done) ->
         hActor.send = (hMessage) ->
@@ -123,7 +123,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[3].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send NOT_AVAILABLE when the acteur is not starting and have socket_in adapter", (done) ->
         hActor.send = (hMessage) ->
@@ -133,7 +133,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[5].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send outboundAdapter when search actor with bareURN", (done) ->
         hActor.send = (hMessage) ->
@@ -143,7 +143,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[0].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send outboundAdapter when search actor with bareURN with load balancing", (done) ->
         @timeout(4000)
@@ -178,7 +178,7 @@ describe "hTracker", ->
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[0].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
         while index < 20
-          hActor.h_onMessageInternal search
+          hActor._h_onMessageInternal search
           index++
 
       it "should send outboundAdapter when search actor with bareURN and same PID", (done) ->
@@ -195,7 +195,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[0].urn, pid: 1212, ip: "127.0.0.1"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send outboundAdapter when search actor with bareURN and same host", (done) ->
         hActor.peers = [
@@ -211,7 +211,7 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[0].urn, pid: 4242, ip: "192.12.12.12"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
 
       it "should send outboundAdapter when search actor with bareURN and other host", (done) ->
         hActor.peers = [
@@ -228,4 +228,4 @@ describe "hTracker", ->
 
         search = config.makeHMessage(hActor.actor, config.logins[3].urn, "hSignal", {name: "peer-search", params:{actor:config.logins[0].urn, pid: 4242, ip: "127.12.12.12"}})
         search.timeout = 1000
-        hActor.h_onMessageInternal search
+        hActor._h_onMessageInternal search
