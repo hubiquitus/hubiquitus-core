@@ -54,6 +54,7 @@ exports.urn =
     return exports.urn.components(urn)["resource"]
 
   components: (urn) ->
+    if not lodash.isString(urn) then return {}
     splitted = urn.split(/:|\//)
     return {
       domain: splitted[1] or ""
