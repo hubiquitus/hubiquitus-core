@@ -38,5 +38,6 @@ codes["hub-128"] = ["hactor", ""];
 codes["hub-129"] = ["hactor", ""];
 codes["hub-130"] = ["hactor", ""];
 codes["hub-131"] = ["hactor", ""];
+codes["hub-132"] = ["htracker", ""];
 
 module.exports = codes;

@@ -52,10 +52,9 @@ class Session extends Actor
   #
   constructor: (topology) ->
     super
-    # Setting outbound adapters
     @type = 'session'
     @trackInbox = topology.trackInbox
-    @hClient = undefined
+    @hClient = null
 
   #
   # @overload _h_touchTracker()

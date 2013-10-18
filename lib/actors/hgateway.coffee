@@ -41,7 +41,6 @@ class Gateway extends Actor
   #
   constructor: (topology) ->
     super
-    # Setting outbound adapters
     @type = 'gateway'
     if topology.properties.socketIOPort
       new SocketIO_Connector({port: topology.properties.socketIOPort, owner: @, security: topology.properties.security})

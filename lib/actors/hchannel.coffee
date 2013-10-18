@@ -41,7 +41,6 @@ class Channel extends Actor
   # @param topology {object} Launch topology of the actor
   #
   constructor: (topology) ->
-    #TODO Stop actor and send error when all mandatory attribut is not in topology
     super
     @type = "channel"
     @inboundAdapters.push factory.make("socket_in", {url: @properties.listenOn, owner: @})

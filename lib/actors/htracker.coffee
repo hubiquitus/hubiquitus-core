@@ -51,28 +51,20 @@ class Tracker extends Actor
   # @param topology {object} Launch topology of the actor
   #
   constructor: (topology) ->
-    #TODO check properties
-
+    super
+    @type = "tracker"
     if topology.properties.channel
       chan = topology.properties.channel
     else
-      namespace_id = utils.urn.domain(topology.actor)
-      chan =
-        actor: "urn:"+namespace_id+":trackChannel",
-        type: "hchannel"
-
+      chan = {actor: "urn:#{utils.urn.domain(topology.actor)}:trackChannel", type: "hchannel"}
     @peers = []
     @trackerChannelAid = chan.actor
     @pubChannelAid = topology.properties.pubChannel
-    unless topology.children
+    if not topology.children
       topology.children = []
-
     topology.children.unshift chan
-
     @timerPeers = {}
     @timeoutDelay = 180000
-    @type = "tracker"
-    super
 
   #
   # @overload _h_initTracker
@@ -92,63 +84,75 @@ class Tracker extends Actor
   #   @param hMessage {object} the hSignal receive
   #
   _h_onCustomSignal: (hMessage) ->
-    @log "trace", "Tracker received a hSignal:", hMessage
+    @_h_makeLog "trace", "hub-132", {msg: "tracker #{@actor} received hSignal", hMessage: hMessage}
     if hMessage.payload.name is "peer-info"
-      existPeer = false
-      index = 0
-      _.forEach @peers, (peers) =>
-        if peers.peerFullId is hMessage.publisher
-          existPeer = true
-          clearTimeout(@timerPeers[hMessage.publisher])
-          peers.peerStatus = hMessage.payload.params.peerStatus
-          peers.peerInbox = hMessage.payload.params.peerInbox
-          if peers.peerStatus is "stopped"
-            @stopAlert(hMessage.publisher)
-            @peers.splice(index, 1)
-            @removePeer(hMessage.publisher)
-          else
-            @timerPeers[hMessage.publisher] = setTimeout(=>
-              delete @timerPeers[hMessage.publisher]
-              @stopAlert(hMessage.publisher)
-              index2 = 0
-              _.forEach @peers, (peers) =>
-                if peers.peerFullId is hMessage.publisher
-                  @peers.splice(index2, 1)
-                index2++
-              @removePeer(hMessage.publisher)
-            , @timeoutDelay)
-        index++
-      if existPeer isnt true
-        @peers.push _.extend({peerFullId: hMessage.publisher}, _.pick(hMessage.payload.params, ['peerType', 'peerId', 'peerStatus', 'peerInbox', 'peerIP']))
-        @timerPeers[hMessage.publisher] = setTimeout(=>
-          delete @timerPeers[hMessage.publisher]
-          @stopAlert(hMessage.publisher)
-          index = 0
-          _.forEach @peers, (peers) =>
-            if peers.peerFullId is hMessage.publisher
-              @peers.splice(index, 1)
-            index++
-          @removePeer(hMessage.publisher)
-        , @timeoutDelay)
-        outbox = @findOutbox(hMessage.publisher, true)
-        if outbox
-          @outboundAdapters.push factory.make(outbox.type, { targetActorAid: outbox.targetActorAid, owner: @, url: outbox.url })
-
-      if @pubChannelAid
-        @send @buildMessage @pubChannelAid, "peer-info", hMessage.payload.params, {persistent: true}
-
+      @_h_peerInfo(hMessage)
     else if hMessage.payload.name is "peer-search"
-      # TODO reflexion sur le lookup et implementation
-      params = hMessage.payload.params
-      outboundadapter = @findOutbox(params.actor, false, params.ip, params.pid)
+      @_h_peerSearch(hMessage)
 
-      if outboundadapter
-        status = codes.OK
-        result = outboundadapter
-      else
-        status = codes.INVALID_ATTR
-        result = "Actor not found"
-      @send @buildResult(hMessage.publisher, hMessage.msgid, status, result)
+  #
+  # Peer info
+  # @private
+  #
+  _h_peerInfo: (hMessage) ->
+    existPeer = false
+    index = 0
+    _.forEach @peers, (peers) =>
+      if peers.peerFullId is hMessage.publisher
+        existPeer = true
+        clearTimeout(@timerPeers[hMessage.publisher])
+        peers.peerStatus = hMessage.payload.params.peerStatus
+        peers.peerInbox = hMessage.payload.params.peerInbox
+        if peers.peerStatus is "stopped"
+          @stopAlert(hMessage.publisher)
+          @peers.splice(index, 1)
+          @removePeer(hMessage.publisher)
+        else
+          @timerPeers[hMessage.publisher] = setTimeout(=>
+            delete @timerPeers[hMessage.publisher]
+            @stopAlert(hMessage.publisher)
+            index2 = 0
+            _.forEach @peers, (peers) =>
+              if peers.peerFullId is hMessage.publisher
+                @peers.splice(index2, 1)
+              index2++
+            @removePeer(hMessage.publisher)
+          , @timeoutDelay)
+      index++
+    if existPeer isnt true
+      @peers.push _.extend({peerFullId: hMessage.publisher}, _.pick(hMessage.payload.params, ['peerType', 'peerId', 'peerStatus', 'peerInbox', 'peerIP']))
+      @timerPeers[hMessage.publisher] = setTimeout(=>
+        delete @timerPeers[hMessage.publisher]
+        @stopAlert(hMessage.publisher)
+        index = 0
+        _.forEach @peers, (peers) =>
+          if peers.peerFullId is hMessage.publisher
+            @peers.splice(index, 1)
+          index++
+        @removePeer(hMessage.publisher)
+      , @timeoutDelay)
+      outbox = @findOutbox(hMessage.publisher, true)
+      if outbox
+        @outboundAdapters.push factory.make(outbox.type, { targetActorAid: outbox.targetActorAid, owner: @, url: outbox.url })
+
+    if @pubChannelAid
+      @send @buildMessage @pubChannelAid, "peer-info", hMessage.payload.params, {persistent: true}
+
+  #
+  # Peer search
+  # @private
+  #
+  _h_peerSearch: (hMessage) ->
+    params = hMessage.payload.params
+    outboundadapter = @findOutbox(params.actor, false, params.ip, params.pid)
+
+    if outboundadapter
+      status = codes.OK
+      result = outboundadapter
+    else
+      status = codes.INVALID_ATTR
+      result = "Actor not found"
+    @send @buildResult(hMessage.publisher, hMessage.msgid, status, result)
 
   #
   # @overload initChildren(children)

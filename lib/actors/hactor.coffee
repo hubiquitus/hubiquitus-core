@@ -446,7 +446,6 @@ class Actor extends EventEmitter
     if not lodash.isObject(topology)
       return cb(@_h_makeLog("warn", "hub-105", {topology: topology}, "'topology' parameter must be an object"))
 
-    # prepare child topology
     childTopology = lodash.cloneDeep(topology)
     childTopology.sharedProperties = childTopology.sharedProperties or {}
     parentSharedProperties = lodash.cloneDeep(@sharedProperties)
@@ -455,8 +454,6 @@ class Actor extends EventEmitter
     if not childTopology.tracker then childTopology.tracker = lodash.cloneDeep(@tracker)
     if not childTopology.loggers then childTopology.loggers = lodash.cloneDeep(@loggersProps)
     if not childTopology.ip then childTopology.ip = @ip
-
-    # prefixing actor's id automatically
     childTopology.actor = "#{childTopology.actor}/#{UUID.generate()}"
 
     switch method

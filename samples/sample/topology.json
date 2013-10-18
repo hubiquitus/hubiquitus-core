@@ -16,7 +16,7 @@
           "type": "hauth"
         }
       ],
-      "adapters": [ { "type": "socket_in"} ],
+      "adapters": [{ "type": "socket_in"}],
       "properties": {
         "socketIOPort": 8080,
         "authTimeout": 3000
@@ -49,5 +49,5 @@
       }
     }
   },
-  "adapters": [{ "type": "socket_in"}]
+  "adapters": [{"type": "socket_in"}]
 }
