@@ -32,7 +32,7 @@ describe("ip module", function () {
 
   describe("resolve function", function () {
     it("should return 4.4.4.4", function () {
-      ip.resolve().should.be.equal("4.4.4.4");
+      ip.resolve().should.eql("4.4.4.4");
     });
   });
 });
