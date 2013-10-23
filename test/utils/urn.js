@@ -1,6 +1,6 @@
-var sinon = require("sinon");
-var mocha = require("mocha");
-var should = require("should");
+require("sinon");
+require("mocha");
+require("should");
 var urn = require(__dirname + "/../../lib/utils/urn");
 
 describe("urn module", function () {

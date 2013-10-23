@@ -1,6 +1,6 @@
-var sinon = require("sinon");
-var mocha = require("mocha");
-var should = require("should");
+require("sinon");
+require("mocha");
+require("should");
 var aid = require(__dirname + "/../../lib/utils/aid");
 
 describe("aid module", function () {
