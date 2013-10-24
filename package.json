@@ -13,15 +13,15 @@
   "dependencies": {
     "lodash": "1.3.*",
     "zmq": "git://github.com/hubiquitus/zeromq.node.git",
-    "tv4" : "=1.0.3",
-    "socket.io" : "0.9.*",
+    "tv4": "=1.0.3",
+    "socket.io": "0.9.*",
     "async": "0.2.5"
   },
   "devDependencies": {
     "jshint": "2.3.*",
     "sinon": "1.7.*",
-    "should" : "2.0.*",
-    "mocha" : "1.13.*"
+    "should": "2.0.*",
+    "mocha": "1.13.*"
   },
   "scripts": {
     "test": "mocha -R spec test/*"

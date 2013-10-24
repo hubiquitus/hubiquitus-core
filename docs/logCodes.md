@@ -1,4 +1,14 @@
 hub-1   hubiquitus
 hub-2   hubiquitus
 hub-3   hubiquitus
+hub-4   hubiquitus
+hub-5   hubiquitus
+hub-6   hubiquitus
+hub-7   hubiquitus
+hub-8   hubiquitus
+hub-9   hubiquitus
+hub-10  hubiquitus
+hub-11  hubiquitus
+hub-12  hubiquitus
 hub-100 adapters/inproc
+hub-101 adapters/ipc
