@@ -1,5 +1,5 @@
 /**
- * @module pingpong sample
+ * @module ping sample
  */
 
 var hubiquitus = require(__dirname + "/../../lib/hubiquitus");

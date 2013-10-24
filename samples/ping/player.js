@@ -1,3 +1,7 @@
+/**
+ * @module ping actor
+ */
+
 var logger = require(__dirname + "/../../lib/logger");
 
 module.exports = function () {
