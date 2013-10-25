@@ -9,8 +9,11 @@ Player = require "./player"
 logger.level = "debug"
 
 player1 = new Player
-hubiquitus.addActor "ping", player1.onMessage, player1
 player2 = new Player
+
+hubiquitus.addActor "ping", player1.onMessage, player1
 hubiquitus.addActor "pong", player2.onMessage, player2
+
+hubiquitus.start()
 
 hubiquitus.send "ping", "pong", {payload: "ping"}

@@ -16,4 +16,5 @@ hubiquitus
     logger.info(this.aid + "> from " + message.publisher + " : " + message.payload);
     this.send(message.publisher, {payload: "pong"});
   })
+  .start()
   .send("pong", "ping", {payload: "pong"});
