@@ -9,4 +9,4 @@ logger.level = "trace";
 
 hubiquitus
   .addActor("ping", require("./player")())
-  .start({ipcAddr: "ipc:///tmp/hubpingipc"});
+  .start();

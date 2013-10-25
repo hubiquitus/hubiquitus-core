@@ -2,11 +2,11 @@ hub-1   hubiquitus
 hub-2   hubiquitus
 hub-3   hubiquitus
 hub-4   hubiquitus
-hub-5   hubiquitus
-hub-6   hubiquitus
-hub-7   hubiquitus
-hub-8   hubiquitus
-hub-9   hubiquitus
+hub-5   discovery
+hub-6   discovery
+hub-7   discovery
+hub-8   discovery
+hub-9   discovery
 hub-10  hubiquitus
 hub-11  hubiquitus
 hub-12  hubiquitus

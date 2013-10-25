@@ -9,5 +9,5 @@ logger.level = "trace";
 
 hubiquitus
   .addActor("pong", require("./../ping/player")())
-  .start({ipcAddr: "ipc:///tmp/hubpingipc"})
+  .start()
   .send("ping", "pong", {payload: "ping"});
