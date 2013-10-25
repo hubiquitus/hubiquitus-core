@@ -1,8 +1,8 @@
 #
-# @module ping sample
+# @module ping-cs actor
 #
 
-logger = require __dirname + "/../../lib/logger"
+logger = require "../../lib/logger"
 
 class Player
 

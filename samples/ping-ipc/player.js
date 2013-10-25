@@ -1,8 +1,8 @@
 /**
- * @module ping actor
+ * @module ping-ipc actor
  */
 
-var logger = require("../../lib/logger");
+var logger = require(__dirname + "/../../lib/logger");
 
 module.exports = function () {
   var count = 0;

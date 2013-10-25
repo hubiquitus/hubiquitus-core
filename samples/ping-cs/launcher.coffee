@@ -1,5 +1,5 @@
 #
-# @module ping actor
+# @module ping-cs sample
 #
 
 hubiquitus = require __dirname + "/../../lib/hubiquitus"
