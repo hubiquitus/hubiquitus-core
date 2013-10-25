@@ -10,14 +10,10 @@ logger.level = "debug";
 hubiquitus
   .addActor("ping", function (message) {
     logger.info(this.aid + "> from " + message.publisher + " : " + message.payload);
-    setTimeout(function () {
-      this.send(message.publisher, {payload: "ping"});
-    }.bind(this), 500);
+    this.send(message.publisher, {payload: "ping"});
   })
   .addActor("pong", function (message) {
     logger.info(this.aid + "> from " + message.publisher + " : " + message.payload);
-    setTimeout(function () {
-      this.send(message.publisher, {payload: "pong"});
-    }.bind(this), 500);
+    this.send(message.publisher, {payload: "pong"});
   })
   .send("pong", "ping", {payload: "pong"});

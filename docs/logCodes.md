@@ -12,3 +12,5 @@ hub-11  hubiquitus
 hub-12  hubiquitus
 hub-100 adapters/inproc
 hub-101 adapters/ipc
+hub-102 adapters/ipc
+hub-103 adapters/ipc
