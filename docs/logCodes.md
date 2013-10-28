@@ -10,6 +10,10 @@ hub-9   discovery
 hub-10  hubiquitus
 hub-11  hubiquitus
 hub-12  hubiquitus
+hub-13  hubiquitus
+hub-14  hubiquitus
+hub-15  hubiquitus
+hub-16  hubiquitus
 hub-100 adapters/inproc
 hub-101 adapters/ipc
 hub-102 adapters/ipc

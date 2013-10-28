@@ -7,6 +7,10 @@ var logger = require(__dirname + "/../../lib/logger");
 
 logger.level = "debug";
 
+hubiquitus.start(function () {
+  logger.info("hubiquitus started");
+});
+
 hubiquitus
   .addActor("ping", function (message) {
     logger.info(this.aid + "> from " + message.publisher + " : " + message.payload);
@@ -16,5 +20,4 @@ hubiquitus
     logger.info(this.aid + "> from " + message.publisher + " : " + message.payload);
     this.send(message.publisher, {payload: "pong"});
   })
-  .start()
   .send("pong", "ping", {payload: "pong"});

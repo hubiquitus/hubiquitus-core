@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/hubiquitus/hubiquitus"
   },
+  "main": "./lib/hubiquitus",
   "engines": {
     "node": ">0.8.0"
   },
