@@ -16,4 +16,4 @@ hubiquitus.addActor "pong", player2.onMessage, player2
 
 hubiquitus.start()
 
-hubiquitus.send "ping", "pong", {payload: "ping"}
+hubiquitus.send "ping", "pong", "ping"

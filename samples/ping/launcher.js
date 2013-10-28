@@ -10,4 +10,4 @@ logger.level = "debug";
 hubiquitus.start()
   .addActor("ping", require("./player")())
   .addActor("pong", require("./player")())
-  .send("ping", "pong", {payload: "ping"});
+  .send("ping", "pong", "ping");

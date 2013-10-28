@@ -10,9 +10,9 @@ class Player
     @count = 0
 
   onMessage: (message) ->
-    logger.info "[#{@aid}] ping from #{message.publisher} (#{++@count} total)"
+    logger.info "[#{@aid}] ping from #{message.from} (#{++@count} total)"
     setTimeout (=>
-      @send message.publisher, {payload: "ping"}
+      @send message.from, "ping"
     ), 500
 
 module.exports = Player
