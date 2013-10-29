@@ -8,7 +8,7 @@ module.exports = function () {
   var count = 0;
 
   return function (message) {
-    logger.info("[" + this.aid + "] ping from " + message.from + " (" + ++count + " total)");
+    logger.info("[" + this.id + "] ping from " + message.from + " (" + ++count + " total)");
     setTimeout((function () {
       this.send(message.from, "ping");
     }).bind(this), 500);

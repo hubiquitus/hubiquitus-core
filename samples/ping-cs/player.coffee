@@ -10,7 +10,7 @@ class Player
     @count = 0
 
   onMessage: (message) ->
-    logger.info "[#{@aid}] ping from #{message.from} (#{++@count} total)"
+    logger.info "[#{@id}] ping from #{message.from} (#{++@count} total)"
     setTimeout (=>
       @send message.from, "ping"
     ), 500
