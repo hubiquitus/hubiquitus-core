@@ -1,4 +1,4 @@
-require("sinon");
+var sinon = require("sinon");
 require("mocha");
 require("should");
 var os = require("os");
