@@ -11,6 +11,6 @@ module.exports = function () {
     logger.info("[" + this.id + "] ping from " + message.from + " (" + ++count + " total)");
     setTimeout((function () {
       this.send(message.from, "ping");
-    }).bind(this), 500);
+    }).bind(this), parseInt(Math.random() * 490) + 10);
   };
 };
