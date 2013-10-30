@@ -11,6 +11,8 @@ hub-10  hubiquitus
 hub-11  hubiquitus
 hub-12  hubiquitus
 hub-13  hubiquitus
+hub-14  hubiquitus
+hub-15  hubiquitus
 hub-16  hubiquitus
 hub-17  hubiquitus
 hub-18  hubiquitus
@@ -21,6 +23,7 @@ hub-102 adapters/ipc
 hub-103 adapters/ipc
 hub-104 adapters/ipc
 hub-105 adapters/tcp
+hub-106 adapters/tcp
 hub-200 utils/aid
 hub-201 adapters/utils/ack
 hub-202 adapters/utils/ack
