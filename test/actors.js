@@ -11,11 +11,13 @@ describe("actors module", function () {
   var testActors = {
     ping: {id: "ping", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
     pong: {id: "pong", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
-    pung: {id: "pung", container: {id: "2", netInfo: {pid: 1, ip: "0.0.0.0"}}},
-    peng: {id: "peng", container: {id: "3", netInfo: {pid: 3, ip: "1.1.1.1"}}},
-    pang: {id: "pang", container: {id: "3", netInfo: {pid: 3, ip: "1.1.1.1"}}},
+    pung: {id: "pung", container: {id: "1", netInfo: {pid: 1, ip: "0.0.0.0"}}},
+    peng: {id: "peng", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}},
+    pang: {id: "pang", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}},
     fping1: {id: "fping/1", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
-    fping2: {id: "fping/2", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}}
+    fping2: {id: "fping/2", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
+    fping3: {id: "fping/3", container: {id: "1", netInfo: {pid: 1, ip: "0.0.0.0"}}},
+    fping4: {id: "fping/4", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}}
   };
   var testActorsCount = _.keys(testActors).length;
 
@@ -47,7 +49,7 @@ describe("actors module", function () {
 
   describe("add function", function () {
     it("should add an actor", function () {
-      actors.add({id: "tmp"});
+      actors.add({id: "tmp", container: {id: 12, netInfo: {pid: 123, ip: "1.2.3.4"}}});
       actors.count().should.be.eql(testActorsCount + 1);
     });
   });
@@ -112,15 +114,16 @@ describe("actors module", function () {
     it("should return ping", function () {
       actors.pick("ping").should.be.eql("ping");
     });
-    it("should return one element", function () {
+    it("should return a process element", function () {
       var aid = actors.pick("fping");
       should.exist(aid);
       aid.should.have.type("string");
+      actors.getScope(aid).should.be.eql(actors.scope.PROCESS);
     });
   });
 
   describe("pickAll function", function () {
-    it("should return ping", function () {
+    it("should return fping1", function () {
       var aids = actors.pickAll("fping/1");
       should.exist(aids);
       aids.should.be.an.instanceof(Array);
@@ -131,13 +134,13 @@ describe("actors module", function () {
       var aids = actors.pickAll("fping");
       should.exist(aids);
       aids.should.be.an.instanceof(Array);
-      aids.should.have.length(2);
+      aids.should.have.length(4);
     });
     it("should return one element", function () {
       var aids = actors.pickAll("fping", actors.scope.REMOTE);
       should.exist(aids);
       aids.should.be.an.instanceof(Array);
-      aids.should.have.length(0);
+      aids.should.have.length(1);
     });
   });
 });
