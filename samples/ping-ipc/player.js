@@ -9,8 +9,6 @@ module.exports = function () {
 
   return function (message) {
     logger.info("[" + this.id + "] ping from " + message.from + " (" + ++count + " total)");
-    setTimeout((function () {
-      this.send(message.from, "ping");
-    }).bind(this), 500);
+    this.send(message.from, "ping");
   };
 };
