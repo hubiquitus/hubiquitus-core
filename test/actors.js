@@ -112,7 +112,9 @@ describe("actors module", function () {
 
   describe("pick function", function () {
     it("should return ping", function () {
-      actors.pick("ping").should.be.eql("ping");
+      var aid = actors.pick("ping");
+      should.exist(aid);
+      aid.should.be.eql("ping");
     });
     it("should return a process element", function () {
       var aid = actors.pick("fping");
