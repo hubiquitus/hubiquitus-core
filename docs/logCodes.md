@@ -18,6 +18,7 @@ hub-17  hubiquitus
 hub-18  hubiquitus
 hub-19  hubiquitus
 hub-20  discovery
+hub-21  discovery
 hub-100 adapters/inproc
 hub-101 adapters/ipc
 hub-102 adapters/ipc
@@ -30,6 +31,12 @@ hub-108 adapters/ipc
 hub-109 adapters/tcp
 hub-110 adapters/ipc
 hub-111 adapters/utils/zmq
+hub-112 adapters/utils/zmq
+hub-113 adapters/utils/zmq
+hub-114 adapters/ipc
+hub-115 adapters/tcp
+hub-116 adapters/ipc
+hub-117 adapters/tcp
 hub-200 utils/aid
 hub-201 adapters/utils/ack
 hub-202 adapters/utils/ack
