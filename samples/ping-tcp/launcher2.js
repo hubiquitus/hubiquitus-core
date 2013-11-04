@@ -8,7 +8,7 @@ var utils = {
   ip: require(__dirname + "/../../lib/utils/ip")
 };
 
-logger.level = "debug";
+logger.level = "trace";
 
 hubiquitus.start({discoveryAddr: "epgm://" + utils.ip.resolve() + ";224.0.0.1:5555"})
   .addActor("pong", require("./../ping/player")())
