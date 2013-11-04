@@ -21,7 +21,7 @@ hub-20  discovery
 hub-100 adapters/inproc
 hub-101 adapters/ipc
 hub-102 adapters/ipc
-hub-103 adapters/ipc
+hub-103 adapters/utils/zmq
 hub-104 adapters/ipc
 hub-105 adapters/tcp
 hub-106 adapters/tcp
@@ -29,6 +29,7 @@ hub-107 adapters/inproc
 hub-108 adapters/ipc
 hub-109 adapters/tcp
 hub-110 adapters/ipc
+hub-111 adapters/utils/zmq
 hub-200 utils/aid
 hub-201 adapters/utils/ack
 hub-202 adapters/utils/ack
