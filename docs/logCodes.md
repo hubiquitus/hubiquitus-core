@@ -19,6 +19,7 @@ hub-18  hubiquitus
 hub-19  hubiquitus
 hub-20  discovery
 hub-21  discovery
+hub-22  hubiquitus
 hub-100 adapters/inproc
 hub-101 adapters/ipc
 hub-102 adapters/ipc
