@@ -13,9 +13,7 @@
   },
   "dependencies": {
     "lodash": "2.2.*",
-    "zmq": "git://github.com/hubiquitus/zeromq.node.git",
-    "tv4": "=1.0.3",
-    "socket.io": "0.9.*",
+    "axon": "1.*",
     "async": "0.2.5"
   },
   "devDependencies": {
