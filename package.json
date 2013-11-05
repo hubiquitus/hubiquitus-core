@@ -14,6 +14,7 @@
   "dependencies": {
     "lodash": "2.2.*",
     "axon": "1.*",
+    "punt": "1.*",
     "async": "0.2.5"
   },
   "devDependencies": {
