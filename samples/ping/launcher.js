@@ -7,7 +7,7 @@ var logger = require(__dirname + "/../../lib/logger");
 
 logger.level = "trace";
 
-hubiquitus.start({stats: 'on'})
+hubiquitus.start({stats: "off"})
   .addActor("ping", require("./player")())
   .addActor("pong", require("./player")())
   .send("ping", "pong", "ping");
