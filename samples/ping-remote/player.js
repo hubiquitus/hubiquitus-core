@@ -8,7 +8,8 @@ module.exports = function () {
   var count = 0;
 
   return function (message) {
-    logger.info("[" + this.id + "] ping from " + message.from + " (" + ++count + " total)");
+    if (++count%1000 === 0)
+      logger.info("[" + this.id + "] ping from " + message.from + " (" + count + " total)");
     this.send(message.from, "ping");
   };
 };
