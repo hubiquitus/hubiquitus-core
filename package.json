@@ -12,10 +12,7 @@
     "node": ">0.8.0"
   },
   "dependencies": {
-    "debug": "*",
     "lodash": "2.2.*",
-    "axon": "1.*",
-    "punt": "1.*",
     "async": "0.2.5"
   },
   "devDependencies": {
