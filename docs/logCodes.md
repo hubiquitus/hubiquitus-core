@@ -20,6 +20,7 @@ hub-19  hubiquitus
 hub-20  discovery
 hub-21  discovery
 hub-22  hubiquitus
+hub-23   discovery
 hub-100 UNUSED
 hub-101 UNUSED
 hub-102 UNUSED
