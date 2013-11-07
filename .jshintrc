@@ -3,6 +3,7 @@
   "indent": 2,
   "quotmark": "double",
   "trailing": true,
-  "maxlen": 120,
+  "boss": true,
+  "esnext": true,
   "node": true
 }
