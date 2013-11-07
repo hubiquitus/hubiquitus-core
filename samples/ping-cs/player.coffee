@@ -9,10 +9,10 @@ class Player
   constructor: ->
     @count = 0
 
-  onMessage: (message) ->
-    logger.info "[#{@id}] ping from #{message.from} (#{++@count} total)"
+  onMessage: (from, content, date, cb) ->
+    logger.info "[#{@id}] #{content} from #{from} (#{++@count} total)"
     setTimeout (=>
-      @send message.from, "ping"
+      @send from, "ping"
     ), 500
 
 module.exports = Player

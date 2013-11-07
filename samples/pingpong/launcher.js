@@ -12,12 +12,12 @@ hubiquitus.start(function () {
 });
 
 hubiquitus
-  .addActor("ping", function (message) {
-    logger.info(this.id + "> from " + message.from + " : " + message.content);
-    this.send(message.from, "ping");
+  .addActor("ping", function (from, content) {
+    logger.info(this.id + "> from " + from + " : " + content);
+    this.send(from, "ping");
   })
-  .addActor("pong", function (message) {
-    logger.info(this.id + "> from " + message.from + " : " + message.content);
-    this.send(message.from, "pong");
+  .addActor("pong", function (from, content) {
+    logger.info(this.id + "> from " + from + " : " + content);
+    this.send(from, "pong");
   })
   .send("pong", "ping", {payload: "pong"});
