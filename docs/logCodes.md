@@ -22,6 +22,10 @@ hub-21  discovery
 hub-22  hubiquitus
 hub-23  discovery
 hub-24  hubiquitus
+hub-25  hubiquitus
+hub-26  hubiquitus
+hub-27  hubiquitus
+hub-28  hubiquitus
 hub-100 adapters/remote
 hub-101 adapters/remote
 hub-102 adapters/remote
