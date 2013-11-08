@@ -27,6 +27,10 @@ hub-26  hubiquitus
 hub-27  hubiquitus
 hub-28  hubiquitus
 hub-29  hubiquitus
+hub-30  hubiquitus
+hub-31  hubiquitus
+hub-32  hubiquitus
+hub-33  hubiquitus
 hub-100 adapters/remote
 hub-101 adapters/remote
 hub-102 adapters/remote
@@ -51,8 +55,4 @@ hub-120 adapters/remote
 hub-121 adapters/remote
 hub-122 adapters/remote
 hub-123 adapters/remote
-hub-124 adapters/remote
-hub-125 adapters/remote
-hub-126 adapters/inproc
-hub-127 adapters/inproc
 hub-200 utils/aid

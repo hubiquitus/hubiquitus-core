@@ -3,7 +3,6 @@
  */
 
 var hubiquitus = require("./lib/hubiquitus");
-hubiquitus.filter = require("./lib/filter");
 hubiquitus.logger = require("./lib/logger");
 hubiquitus.utils = {
   aid: require("./lib/utils/aid"),
