@@ -36,42 +36,8 @@ describe("actors module", function () {
   });
 
   afterEach(function () {
-    actors.removeAll();
-  });
-
-  describe("count function", function () {
-    it("should return valid count", function () {
-      actors.count().should.be.eql(testActorsCount);
-    });
-  });
-
-  describe("add function", function () {
-    it("should add an actor", function () {
-      actors.add({id: "tmp", container: {id: 12, netInfo: {pid: 123, ip: "1.2.3.4"}}});
-      actors.count().should.be.eql(testActorsCount + 1);
-    });
-  });
-
-  describe("remove function", function () {
-    it("should remove an actor", function () {
-      actors.remove("ping");
-      actors.count().should.be.eql(testActorsCount - 1);
-    });
-  });
-
-  describe("removeAll function", function () {
-    it("should remove all actors", function () {
-      actors.removeAll();
-      actors.count().should.be.eql(0);
-    });
-  });
-
-  describe("exists function", function () {
-    it("should return true", function () {
-      actors.exists("ping").should.be.eql(true);
-    });
-    it("should return false", function () {
-      actors.exists("fake").should.be.eql(false);
+    _.forOwn(testActors, function (actor) {
+      actors.remove(actor.id);
     });
   });
 
@@ -87,6 +53,33 @@ describe("actors module", function () {
     });
     it("should return peng actor (force scope : remote)", function () {
       actors.get("peng", actors.scope.REMOTE).should.be.eql(testActors.peng);
+    });
+  });
+
+  describe("add function", function () {
+    it("should add an actor", function () {
+      var actor = {id: "tmp", container: {id: 12, netInfo: {pid: 123, ip: "1.2.3.4"}}};
+      actors.add(actor);
+      var retreivedActor = actors.get("tmp");
+      should.exist(retreivedActor);
+      retreivedActor.should.be.eql(actor);
+    });
+  });
+
+  describe("remove function", function () {
+    it("should remove an actor", function () {
+      actors.remove("ping");
+      var retreivedActor = actors.get("ping");
+      should.not.exist(retreivedActor);
+    });
+  });
+
+  describe("exists function", function () {
+    it("should return true", function () {
+      actors.exists("ping").should.be.eql(true);
+    });
+    it("should return false", function () {
+      actors.exists("fake").should.be.eql(false);
     });
   });
 
