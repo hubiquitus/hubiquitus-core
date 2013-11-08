@@ -51,4 +51,8 @@ hub-120 adapters/remote
 hub-121 adapters/remote
 hub-122 adapters/remote
 hub-123 adapters/remote
+hub-124 adapters/remote
+hub-125 adapters/remote
+hub-126 adapters/inproc
+hub-127 adapters/inproc
 hub-200 utils/aid

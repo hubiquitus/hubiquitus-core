@@ -5,7 +5,7 @@
 var hubiquitus = require(__dirname + "/../../lib/hubiquitus");
 var logger = require(__dirname + "/../../lib/logger");
 
-logger.level = "debug";
+logger.level = "trace";
 
 hubiquitus.start()
   .addActor("joe", function (from, content, date, cb) {
