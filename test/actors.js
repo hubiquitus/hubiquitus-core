@@ -11,13 +11,11 @@ describe("actors module", function () {
   var testActors = {
     ping: {id: "ping", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
     pong: {id: "pong", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
-    pung: {id: "pung", container: {id: "1", netInfo: {pid: 1, ip: "0.0.0.0"}}},
     peng: {id: "peng", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}},
     pang: {id: "pang", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}},
     fping1: {id: "fping/1", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
     fping2: {id: "fping/2", container: {id: "0", netInfo: {pid: 0, ip: "0.0.0.0"}}},
-    fping3: {id: "fping/3", container: {id: "1", netInfo: {pid: 1, ip: "0.0.0.0"}}},
-    fping4: {id: "fping/4", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}}
+    fping4: {id: "fping/3", container: {id: "2", netInfo: {pid: 3, ip: "1.1.1.1"}}}
   };
   var testActorsCount = _.keys(testActors).length;
 
@@ -87,9 +85,6 @@ describe("actors module", function () {
     it("should return ping actor (force scope : process)", function () {
       actors.get("ping", actors.scope.PROCESS).should.be.eql(testActors.ping);
     });
-    it("should return pung actor (force scope : local)", function () {
-      actors.get("pung", actors.scope.LOCAL).should.be.eql(testActors.pung);
-    });
     it("should return peng actor (force scope : remote)", function () {
       actors.get("peng", actors.scope.REMOTE).should.be.eql(testActors.peng);
     });
@@ -98,9 +93,6 @@ describe("actors module", function () {
   describe("getScope function", function () {
     it("should return process", function () {
       actors.getScope("ping").should.be.eql(actors.scope.PROCESS);
-    });
-    it("should return local", function () {
-      actors.getScope("pung").should.be.eql(actors.scope.LOCAL);
     });
     it("should return remote", function () {
       actors.getScope("peng").should.be.eql(actors.scope.REMOTE);
@@ -136,7 +128,7 @@ describe("actors module", function () {
       var aids = actors.pickAll("fping");
       should.exist(aids);
       aids.should.be.an.instanceof(Array);
-      aids.should.have.length(4);
+      aids.should.have.length(3);
     });
     it("should return one element", function () {
       var aids = actors.pickAll("fping", actors.scope.REMOTE);
