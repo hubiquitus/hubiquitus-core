@@ -5,6 +5,7 @@
   "trailing": true,
   "boss": true,
   "esnext": true,
+  "expr": true,
   "sub": true,
   "node": true
 }
