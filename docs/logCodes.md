@@ -26,6 +26,7 @@ hub-25  hubiquitus
 hub-26  hubiquitus
 hub-27  hubiquitus
 hub-28  hubiquitus
+hub-29  hubiquitus
 hub-100 adapters/remote
 hub-101 adapters/remote
 hub-102 adapters/remote
