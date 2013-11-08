@@ -5,7 +5,7 @@
   "homepage": "www.hubiquitus.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hubiquitus/hubiquitus"
+    "url": "https://github.com/hubiquitus/hubiquitus-core"
   },
   "main": "./index",
   "engines": {
