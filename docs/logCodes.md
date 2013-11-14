@@ -30,7 +30,7 @@ hub-29  hubiquitus
 hub-30  hubiquitus
 hub-31  hubiquitus
 hub-32  hubiquitus
-hub-33  hubiquitus
+hub-33  UNUSED
 hub-100 adapters/remote
 hub-101 adapters/remote
 hub-102 adapters/remote
