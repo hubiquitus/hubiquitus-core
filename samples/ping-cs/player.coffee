@@ -9,7 +9,7 @@ class Player
   constructor: ->
     @count = 0
 
-  onMessage: (from, content, date, cb) ->
+  onMessage: (from, content, reply) ->
     logger.info "[#{@id}] #{content} from #{from} (#{++@count} total)"
     setTimeout (=>
       @send from, "ping"

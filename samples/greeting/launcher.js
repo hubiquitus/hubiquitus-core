@@ -8,15 +8,15 @@ var logger = require(__dirname + "/../../lib/logger");
 logger.level = "trace";
 
 hubiquitus.start()
-  .addActor("joe", function (from, content, date, cb) {
+  .addActor("joe", function (from, content, reply) {
     logger.info(this.id + "> from " + from + " : " + content);
     setTimeout(function () {
-      cb(null, "hi");
+      reply(null, "hi");
     }, 0);
   })
-  .addActor("max", function (from, content, date, cb) {
+  .addActor("max", function (from, content, reply) {
     logger.info(this.id + "> from " + from + " : " + content);
-    this.send("joe", "hello", 1000, function (err, from, content) {
+    this.send("joe", "hello", 1000, function (err, content) {
       if (err) return logger.err(err);
       logger.info(this.id + "> from " + from + " : " + content);
     }.bind(this));
