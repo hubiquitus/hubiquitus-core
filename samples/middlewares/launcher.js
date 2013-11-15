@@ -10,17 +10,21 @@ var utils = {
 };
 
 hubiquitus.start()
-  .addActor("toto/1", function (from, content) {
+  .addActor("toto", function (from, content, reply) {
     console.log(this.id + "> from " + from + " : " + content);
+    console.log("\nREPLYING 'hi'");
+    reply(null, "hi !");
   });
 
 console.log("[m1] no filter");
-hubiquitus.use(function (message, cb) {
+hubiquitus.use(function (message, type, cb) {
+  console.log("[m1] invoked; " + type);
   cb();
 });
 
 console.log("[m2] allow only content 'hello'");
-hubiquitus.use(function (message, cb) {
+hubiquitus.use(function (message, type, cb) {
+  console.log("[m2] invoked; " + type);
   if (message.payload.content !== 'hello') {
     console.log("[m2] content !== 'hello', REJECTED");
   } else {
@@ -28,9 +32,5 @@ hubiquitus.use(function (message, cb) {
   }
 });
 
-console.log("\nSENDING hello");
-hubiquitus.send("god", "toto/1", "hello");
-setTimeout(function () {
-  console.log("\nSENDING yop");
-  hubiquitus.send("god", "toto/1", "yop");
-}, 1000);
+console.log("\nSENDING 'hello'");
+hubiquitus.send("god", "toto", "hello");
