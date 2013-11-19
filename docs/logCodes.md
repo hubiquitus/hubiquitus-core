@@ -27,8 +27,8 @@ hub-26  hubiquitus
 hub-27  hubiquitus
 hub-28  hubiquitus
 hub-29  hubiquitus
-hub-30  UNUSED
-hub-31  UNUSED
+hub-30  hubiquitus
+hub-31  hubiquitus
 hub-32  UNUSED
 hub-33  UNUSED
 hub-100 adapters/remote
