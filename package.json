@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "lodash": "2.2.*",
-    "tv4": "1.0.*"
+    "tv4": "1.0.*",
+    "msgpack": "~0.2.1"
   },
   "devDependencies": {
     "jshint": "2.3.*",
