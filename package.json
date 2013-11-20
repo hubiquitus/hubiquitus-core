@@ -20,7 +20,9 @@
     "jshint": "2.3.*",
     "sinon": "1.7.*",
     "should": "2.0.*",
-    "mocha": "1.13.*"
+    "mocha": "1.13.*",
+    "sockjs": "~0.3.8",
+    "node-static": "~0.7.2"
   },
   "scripts": {
     "test": "mocha -R spec test/*"
