@@ -2,7 +2,7 @@
 # @module ping-cs actor
 #
 
-logger = require "../../lib/logger"
+logger = require '../../lib/logger'
 
 class Player
 
@@ -10,9 +10,9 @@ class Player
     @count = 0
 
   onMessage: (from, content, reply) ->
-    logger.info "[#{@id}] #{content} from #{from} (#{++@count} total)"
+    logger.info '[#{@id}] #{content} from #{from} (#{++@count} total)'
     setTimeout (=>
-      @send from, "ping"
+      @send from, 'ping'
     ), 500
 
 module.exports = Player

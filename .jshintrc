@@ -1,11 +1,12 @@
 {
   "camelcase": true,
   "indent": 2,
-  "quotmark": "double",
+  "quotmark": "single",
   "trailing": true,
   "boss": true,
   "esnext": true,
   "expr": true,
   "sub": true,
+  "validthis": true,
   "node": true
 }
