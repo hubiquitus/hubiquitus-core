@@ -1,5 +1,6 @@
 /**
- * @module ping-ipc main
+ * @module ping-remote main
+ * Fork two actors into two containers to play ping pong.
  */
 
 var proc = require('child_process');

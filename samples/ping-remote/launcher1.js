@@ -1,7 +1,14 @@
 /**
- * @module ping-ipc launcher 1
+ * @module ping-remote launcher 1
  * Two actors play ping-pong in two differents containers.
  * Container1: start the container and add actor.
+ * discorveryAddr option should be a multicast or unicast address.
+ * discoveryAddr is used for containers mutual discovery and therefore remotes actors discovery.
+ *
+ * Actors mutual discovery use a retry algorithm. Send command can be invoked in both launchers
+ * (a message can be send to a target even if it doesn't exists. As soon as it appears,
+ * message will be delivered).
+ * @see {@link discovery}
  */
 
 var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
