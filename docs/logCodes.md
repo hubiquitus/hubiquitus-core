@@ -7,9 +7,9 @@ hub-6   discovery
 hub-7   discovery
 hub-8   discovery
 hub-9   discovery
-hub-10  hubiquitus
-hub-11  hubiquitus
-hub-12  hubiquitus
+hub-10  discovery
+hub-11  discovery
+hub-12  discovery
 hub-13  hubiquitus
 hub-14  hubiquitus
 hub-15  hubiquitus
