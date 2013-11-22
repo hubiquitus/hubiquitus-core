@@ -1,5 +1,9 @@
 /**
- * @module pingpong sample
+ * @module ping-pong sample
+ * Two distincts actors are playing ping pong in the same container.
+ * We add both actors to the container and then start it.
+ * Finally, we launch the game sending a PONG message.
+ * Start function can be called at anytime : messages are queued until the container starts.
  */
 
 var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
@@ -7,17 +11,14 @@ var logger = require(__dirname + '/../../lib/logger');
 
 logger.level = 'debug';
 
-hubiquitus.start(function () {
-  logger.info('hubiquitus started');
-});
-
 hubiquitus
   .addActor('ping', function (from, content) {
     logger.info(this.id + '> from ' + from + ' : ' + content);
-    this.send(from, 'ping');
+    this.send(from, 'PING');
   })
   .addActor('pong', function (from, content) {
     logger.info(this.id + '> from ' + from + ' : ' + content);
-    this.send(from, 'pong');
+    this.send(from, 'PONG');
   })
-  .send('pong', 'ping', {payload: 'pong'});
+  .start()
+  .send('pong', 'ping', 'PONG');

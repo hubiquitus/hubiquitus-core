@@ -5,6 +5,15 @@
 
 Hubiquitus is an ubiquitous framework for build context-aware live apps.
 
+## Samples
+Samples list :
+* pingpong
+* ping
+* ping-cs (coffeescript version of ping)
+* ping-remote
+* greeting
+* middlewares
+
 ## Docs
 Under heavy developments.
 The whole documentation of the Hubiquitus project is available in the `docs` subdirectory of this repo.

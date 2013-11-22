@@ -12,7 +12,7 @@ class Player
   onMessage: (from, content, reply) ->
     logger.info '[#{@id}] #{content} from #{from} (#{++@count} total)'
     setTimeout (=>
-      @send from, 'ping'
+      @send from, 'PING'
     ), 500
 
 module.exports = Player
