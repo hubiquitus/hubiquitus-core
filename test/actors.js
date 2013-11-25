@@ -83,18 +83,6 @@ describe('actors module', function () {
     });
   });
 
-  describe('getScope function', function () {
-    it('should return process', function () {
-      actors.getScope('ping').should.be.eql(actors.scope.PROCESS);
-    });
-    it('should return remote', function () {
-      actors.getScope('peng').should.be.eql(actors.scope.REMOTE);
-    });
-    it('should return none', function () {
-      actors.getScope('fake').should.be.eql(actors.scope.NONE);
-    });
-  });
-
   describe('pick function', function () {
     it('should return ping', function () {
       var aid = actors.pick('ping');
@@ -105,7 +93,7 @@ describe('actors module', function () {
       var aid = actors.pick('fping');
       should.exist(aid);
       aid.should.have.type('string');
-      actors.getScope(aid).should.be.eql(actors.scope.PROCESS);
+      actors.get(aid).scope.should.be.eql(actors.scope.PROCESS);
     });
   });
 
