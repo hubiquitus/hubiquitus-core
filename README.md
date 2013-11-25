@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/hubiquitus/hubiquitus.png?branch=master)](https://travis-ci.org/hubiquitus/hubiquitus)
 [![Build Status](https://www.codeship.io/projects/9274e5a0-341a-0131-92d2-228038a705a1/status)](https://www.codeship.io/projects/9749)
 
 # Hubiquitus

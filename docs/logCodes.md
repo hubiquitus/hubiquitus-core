@@ -29,8 +29,10 @@
 * hub-29  hubiquitus
 * hub-30  hubiquitus
 * hub-31  hubiquitus
-* hub-32  UNUSED
-* hub-33  UNUSED
+* hub-32  actors
+* hub-33  actors
+* hub-34  actors
+* hub-33  actors
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote

@@ -10,11 +10,11 @@ describe('actors module', function () {
 
   var testActors = {
     ping: {id: 'ping', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
-    pong: {id: 'pong', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
+    pong: {id: 'pong', container: {id: '0', netInfo: {pid: 1, ip: '0.0.0.0'}}},
     peng: {id: 'peng', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}},
     pang: {id: 'pang', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}},
     fping1: {id: 'fping/1', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
-    fping2: {id: 'fping/2', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
+    fping2: {id: 'fping/2', container: {id: '0', netInfo: {pid: 1, ip: '0.0.0.0'}}},
     fping4: {id: 'fping/3', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}}
   };
   var testActorsCount = _.keys(testActors).length;
@@ -43,22 +43,37 @@ describe('actors module', function () {
 
   describe('get function', function () {
     it('should return ping actor', function () {
-      actors.get('ping').should.be.eql(testActors.ping);
+      var actor = actors.get('ping');
+      should.exist(actor);
+      actor.should.be.eql(testActors.ping);
+      actor.scope.should.be.eql(actors.scope.PROCESS);
     });
     it('should return null', function () {
       should.not.exist(actors.get('fake'));
     });
     it('should return ping actor (force scope : process)', function () {
-      actors.get('ping', actors.scope.PROCESS).should.be.eql(testActors.ping);
+      var actor = actors.get('ping', actors.scope.PROCESS);
+      should.exist(actor);
+      actor.should.be.eql(testActors.ping);
+      actor.scope.should.be.eql(actors.scope.PROCESS);
+    });
+    it('should return pong actor (force scope : local)', function () {
+      var actor = actors.get('pong', actors.scope.LOCAL);
+      should.exist(actor);
+      actor.should.be.eql(testActors.pong);
+      actor.scope.should.be.eql(actors.scope.LOCAL);
     });
     it('should return peng actor (force scope : remote)', function () {
-      actors.get('peng', actors.scope.REMOTE).should.be.eql(testActors.peng);
+      var actor = actors.get('peng', actors.scope.REMOTE);
+      should.exist(actor);
+      actor.should.be.eql(testActors.peng);
+      actor.scope.should.be.eql(actors.scope.REMOTE);
     });
   });
 
   describe('add function', function () {
     it('should add an actor', function () {
-      var actor = {id: 'tmp', container: {id: 12, netInfo: {pid: 123, ip: '1.2.3.4'}}};
+      var actor = {id: 'tmp', container: {id: '12', netInfo: {pid: 123, ip: '1.2.3.4'}}};
       actors.add(actor);
       var retreivedActor = actors.get('tmp');
       should.exist(retreivedActor);
