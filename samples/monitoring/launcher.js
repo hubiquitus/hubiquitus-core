@@ -1,5 +1,4 @@
 var dgram = require('dgram');
-var msgpack = require('msgpack');
 var http = require('http');
 var static = require('node-static');
 var sockjs = require('sockjs');
@@ -7,7 +6,7 @@ var sockjs = require('sockjs');
 var socket = dgram.createSocket('udp4');
 socket.bind(5555, function () {
   socket.on('message', function (buffer) {
-    broadcast(JSON.stringify(msgpack.unpack(buffer)));
+    broadcast(buffer);
   });
 });
 
@@ -35,4 +34,3 @@ var httpServer = http.createServer(function (request, response) {
 });
 ws.installHandlers(httpServer, {prefix: '/stats'});
 httpServer.listen(5556, '0.0.0.0');
-
