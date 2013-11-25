@@ -20,13 +20,13 @@ hubiquitus.start()
 
 function steve(from, content, reply) {
   logger.info(this.id + '> from ' + from + ' : ' + content);
-  reply(null, 'hi, Bill would like to try my iWings !');
+  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, content) {
+    if (err) return logger.err(err);
+    logger.info(this.id + '> from ' + from + ' : ' + content);
+  }.bind(this));
 }
 
 function bill(from, content, reply) {
   logger.info(this.id + '> from ' + from + ' : ' + content);
-  this.send('steve', 'Yes thanks Steve, you\'re great man. !', 1000, function (err, content) {
-     if (err) return logger.err(err);
-     logger.info(this.id + '> from ' + from + ' : ' + content);
-  }.bind(this));
+  reply(null, 'Yes thanks Steve, you\'re great man. !');
 }
