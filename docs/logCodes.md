@@ -34,6 +34,8 @@
 * hub-34  actors
 * hub-33  actors
 * hub-34  hubiquitus
+* hub-35  discovery
+* hub-36  hubiquitus
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
