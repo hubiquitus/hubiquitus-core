@@ -1,5 +1,5 @@
 /**
- * @module hubiquitus library
+ * @module hubiquitus core library
  */
 
 var hubiquitus = require('./lib/hubiquitus');
