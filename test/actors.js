@@ -2,6 +2,8 @@ require('mocha');
 var should = require('should');
 var actors = require(__dirname + '/../lib/actors');
 var h = require(__dirname + '/../lib/hubiquitus');
+var logger = require(__dirname + '/../lib/logger');
+logger.level = 'info';
 var _ = require('lodash');
 
 describe('actors module', function () {
@@ -85,6 +87,16 @@ describe('actors module', function () {
     it('should remove an actor', function () {
       actors.remove('ping');
       var retreivedActor = actors.get('ping');
+      should.not.exist(retreivedActor);
+    });
+  });
+
+  describe('removeByContainer function', function () {
+    it('should remove peng and pang', function () {
+      actors.removeByContainer('2');
+      var retreivedActor = actors.get('peng');
+      should.not.exist(retreivedActor);
+      retreivedActor = actors.get('pang');
       should.not.exist(retreivedActor);
     });
   });
