@@ -1,8 +1,12 @@
 [![Build Status](https://www.codeship.io/projects/9274e5a0-341a-0131-92d2-228038a705a1/status)](https://www.codeship.io/projects/9749)
 
-# Hubiquitus
+# Hubiquitus core
 
-Hubiquitus is an ubiquitous framework for build context-aware live apps.
+Hubiquitus core system. Actor oriented framework massively distributed.
+
+## Docs
+Under heavy developments.
+The whole documentation of the Hubiquitus project is available in the `docs` subdirectory of this repo.
 
 ## Samples
 Samples list :
@@ -10,12 +14,8 @@ Samples list :
 * ping
 * ping-cs (coffeescript version of ping)
 * ping-remote
-* greeting
+* request-reply
 * middlewares
-
-## Docs
-Under heavy developments.
-The whole documentation of the Hubiquitus project is available in the `docs` subdirectory of this repo.
 
 ## License
 Hubiquitus is a free and open source software licensed under the terms of the [MIT license](http://opensource.org/licenses/MIT).
