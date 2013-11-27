@@ -3,17 +3,75 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.3.0/lodash.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+    <style>
+        @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+
+        * {
+            font-family: 'Droid Sans Mono', sans-serif;
+            font-size: 10pt;
+        }
+
+        .container, h4 {
+            margin-top: 30px;
+        }
+
+        .table thead tr th:last-child {
+            width: 100px;
+        }
+
+        span.label {
+            font-size: 11pt;
+        }
+    </style>
 </head>
 <body data-ng-app>
+<div class="container" data-ng-controller="StatsCtrl" data-ng-cloak>
+
+    <div class="row">
+        <div class="col-md-10">
+            <span class="label"
+                  data-ng-class="{'btn-warning': (status === 'disconnected'), 'btn-success': (status === 'connected')}">{{ status }}</span>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" class="btn btn-danger" data-ng-click="clear()">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </div>
+    </div>
+
+    <div data-ng-repeat="(id, rates) in stats">
+        <h4 class="text-info"><span class="glyphicon glyphicon-chevron-right"></span> {{ id }}</h4>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Rate</th>
+            </tr>
+            </thead>
+            <tbody data-ng-cloak>
+            <tr data-ng-repeat="rate in rates">
+                <td>{{ rate.from }}</td>
+                <td>{{ rate.to }}</td>
+                <td class="text-center"><span class="label label-primary">{{ rate.rate }}</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.3.0/lodash.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
 <script>
     function StatsCtrl($scope) {
         $scope.status = 'disconnected';
-        $scope.stats = [];
+        $scope.stats = {};
+
+        $scope.clear = function() {
+            $scope.stats = {};
+        };
 
         var sock = new SockJS('/stats');
         sock.onopen = function () {
@@ -21,51 +79,32 @@
                 $scope.status = 'connected'
             })
         };
+
         sock.onmessage = function (message) {
             var data = JSON.parse(message.data);
-            var stats = _.sortBy(_.map(_.keys(data), function (key) {
+            var rates = _.sortBy(_.map(_.keys(data.counts), function (key) {
                 if (key === 'global') {
-                    return {from: key, to: '', rate: data[key]};
+                    return {from: key, to: '', rate: data.counts[key]};
                 } else {
                     var pos = key.indexOf('->');
-                    return pos > 0 ? {from: key.substr(0, pos), to: key.substr(pos + 2), rate: data[key]} : null;
+                    return pos > 0 ? {from: key.substr(0, pos), to: key.substr(pos + 2), rate: data.counts[key]} : null;
                 }
-            }), function (stat) {
-                return stat.to
+            }), function (rate) {
+                return rate.to
             });
             $scope.$apply(function () {
-                $scope.stats = stats;
+                $scope.stats[data.id] = rates;
             })
         };
+
         sock.onclose = function () {
             $scope.$apply(function () {
-                $scope.status = 'disconnected'
+                $scope.status = 'disconnected';
+                $scope.stats = {};
             })
         };
 
     }
 </script>
-<div class="container" data-ng-controller="StatsCtrl">
-    <h4><span class="label"
-              data-ng-class="{'btn-warning': (status === 'disconnected'), 'btn-success': (status === 'connected')}">{{ status }}</span>
-    </h4>
-
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>From</th>
-            <th>To</th>
-            <th style="width: 100px">Rate</th>
-        </tr>
-        </thead>
-        <tbody data-ng-cloak>
-        <tr data-ng-repeat="stat in stats">
-            <td><h4>{{ stat.from }}</h4></td>
-            <td><h4>{{ stat.to }}</h4></td>
-            <td><h4><span class="label label-primary">{{ stat.rate }}</span></h4></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
