@@ -18,6 +18,11 @@ logger.level = 'info';
 
 //hubiquitus.set('discoveryAddrs', ['udp://192.168.0.50:4444']);
 //hubiquitus.start({discoveryPort: 4445})
-hubiquitus.start({discoveryAddr: 'udp://224.0.0.1:5555'})
-  .addActor('player2', require('./player')())
-  .send('player2', 'player1', 'PING', 120000);
+hubiquitus.start({stats: {enabled: 'true', host: 'localhost', port: 5555}, discoveryAddr: 'udp://224.0.0.1:5555'})
+  .addActor('player4', require('./player')())
+  .addActor('player5', require('./player')())
+  .addActor('player6', require('./player')())
+  .send('player4', 'player1', 'PING', 100000)
+  .send('player4', 'player3', 'PING', 110000)
+  .send('player5', 'player3', 'PING', 120000)
+  .send('player6', 'player2', 'PING', 130000);
