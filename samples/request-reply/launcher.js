@@ -11,7 +11,7 @@
 var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
 var logger = require(__dirname + '/../../lib/logger');
 
-logger.level = 'trace';
+logger.level = 'info';
 
 hubiquitus.start()
   .addActor('steve', steve)
@@ -20,7 +20,7 @@ hubiquitus.start()
 
 function steve(from, content, reply) {
   logger.info(this.id + '> from ' + from + ' : ' + content);
-  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, content) {
+  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, from, content) {
     if (err) return logger.err(err);
     logger.info(this.id + '> from ' + from + ' : ' + content);
     hubiquitus.stop();
