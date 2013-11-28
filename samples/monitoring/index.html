@@ -3,6 +3,7 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://bootswatch.com/slate/bootstrap.min.css">
     <style>
         @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 
@@ -20,7 +21,7 @@
         }
 
         span.label {
-            font-size: 11pt;
+            font-size: 10pt;
         }
     </style>
 </head>
@@ -33,7 +34,7 @@
                   data-ng-class="{'btn-warning': (status === 'disconnected'), 'btn-success': (status === 'connected')}">{{ status }}</span>
         </div>
         <div class="col-md-2 text-right">
-            <button type="button" class="btn btn-danger" data-ng-click="clear()">
+            <button type="button" class="btn btn-danger" data-ng-click="clear()" data-ng-show="status === 'connected'">
                 <span class="glyphicon glyphicon-trash"></span>
             </button>
         </div>
