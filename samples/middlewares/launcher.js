@@ -12,7 +12,7 @@
  */
 
 var hubiquitus = require(__dirname + '/../../index');
-var logger = hubiquitus.logger('hubiquitus:core-samples');
+var logger = hubiquitus.logger('hubiquitus:core:samples');
 logger.level = 'info';
 
 hubiquitus.use(middleware1);

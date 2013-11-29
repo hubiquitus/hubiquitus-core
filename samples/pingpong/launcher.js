@@ -7,7 +7,7 @@
  */
 
 var hubiquitus = require(__dirname + '/../../index');
-var logger = hubiquitus.logger('hubiquitus:core-samples');
+var logger = hubiquitus.logger('hubiquitus:core:samples');
 hubiquitus.logger.enable('hubiquitus:*');
 hubiquitus.logger.level('hubiquitus:core', 'warn');
 

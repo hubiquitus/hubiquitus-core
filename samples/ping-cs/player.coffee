@@ -3,7 +3,7 @@
 #
 
 hubiquitus = require(__dirname + '/../../index')
-logger = hubiquitus.logger('hubiquitus:core-samples')
+logger = hubiquitus.logger('hubiquitus:core:samples')
 
 class Player
 

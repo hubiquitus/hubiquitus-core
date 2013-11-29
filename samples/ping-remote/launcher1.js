@@ -12,7 +12,7 @@
  */
 
 var hubiquitus = require(__dirname + '/../../index');
-var logger = hubiquitus.logger('hubiquitus:core-samples');
+var logger = hubiquitus.logger('hubiquitus:core:samples');
 hubiquitus.logger.enable('hubiquitus:*');
 
 //hubiquitus.set('discoveryAddrs', ['udp://192.168.0.50:4445']);
