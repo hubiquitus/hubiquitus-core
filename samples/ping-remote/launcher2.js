@@ -11,10 +11,9 @@
  * @see {@link discovery}
  */
 
-var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
-var logger = require(__dirname + '/../../lib/logger');
-
-logger.level = 'info';
+var hubiquitus = require(__dirname + '/../../index');
+var logger = hubiquitus.logger('hubiquitus:core-samples');
+hubiquitus.logger.enable('hubiquitus:*');
 
 //hubiquitus.set('discoveryAddrs', ['udp://192.168.0.50:4444']);
 //hubiquitus.start({discoveryPort: 4445})

@@ -8,10 +8,10 @@
  * @see {@link stats}
  */
 
-var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
-var logger = require(__dirname + '/../../lib/logger');
-
-logger.level = 'debug';
+var hubiquitus = require(__dirname + '/../../index');
+var logger = hubiquitus.logger('hubiquitus:core-samples');
+hubiquitus.logger.enable('hubiquitus:*');
+hubiquitus.logger.level('hubiquitus:*', 'trace');
 
 hubiquitus.start({stats: {enabled: 'true', host: 'localhost', port: 5555}})
   .addActor('player1', require('./player')())

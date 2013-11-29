@@ -2,7 +2,8 @@
 # @module ping-cs actor
 #
 
-logger = require '../../lib/logger'
+hubiquitus = require(__dirname + '/../../index')
+logger = hubiquitus.logger('hubiquitus:core-samples')
 
 class Player
 

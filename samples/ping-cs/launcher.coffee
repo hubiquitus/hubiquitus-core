@@ -6,11 +6,13 @@
 # Start function can be called at anytime : messages are queued until the container starts.
 #
 
-hubiquitus = require __dirname + '/../../lib/hubiquitus'
-logger = require __dirname + '/../../lib/logger'
-Player = require './player'
 
-logger.level = 'debug'
+hubiquitus = require(__dirname + '/../../index')
+logger = hubiquitus.logger('hubiquitus:core-samples')
+hubiquitus.logger.enable('hubiquitus:*')
+hubiquitus.logger.level('hubiquitus:core', 'warn')
+hubiquitus.logger.level('hubiquitus:core-samples', 'debug')
+Player = require('./player')
 
 player1 = new Player
 player2 = new Player

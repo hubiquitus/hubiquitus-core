@@ -4,7 +4,8 @@
  * Each time exports is called, it creates a new actor (function) with a private scope.
  */
 
-var logger = require('../../lib/logger');
+var hubiquitus = require(__dirname + '/../../index');
+var logger = hubiquitus.logger('hubiquitus:core-samples');
 
 module.exports = function () {
   var count = 0;

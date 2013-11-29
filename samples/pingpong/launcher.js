@@ -6,10 +6,10 @@
  * Start function can be called at anytime : messages are queued until the container starts.
  */
 
-var hubiquitus = require(__dirname + '/../../lib/hubiquitus');
-var logger = require(__dirname + '/../../lib/logger');
-
-logger.level = 'debug';
+var hubiquitus = require(__dirname + '/../../index');
+var logger = hubiquitus.logger('hubiquitus:core-samples');
+hubiquitus.logger.enable('hubiquitus:*');
+hubiquitus.logger.level('hubiquitus:core', 'warn');
 
 hubiquitus
   .addActor('ping', function (from, content) {

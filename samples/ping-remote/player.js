@@ -2,7 +2,8 @@
  * @module ping-ipc actor
  */
 
-var logger = require(__dirname + '/../../lib/logger');
+var hubiquitus = require(__dirname + '/../../index');
+var logger = hubiquitus.logger('hubiquitus:core-samples');
 
 module.exports = function () {
   var count = 0;
