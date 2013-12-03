@@ -17,16 +17,16 @@ hubiquitus.start()
   .addActor('bill', bill)
   .send('linus', 'steve', 'Bill might need your iWings :) !');
 
-function steve(from, content, reply) {
-  logger.info(this.id + '> from ' + from + ' : ' + content);
-  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, from, content) {
+function steve(req) {
+  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, res) {
     if (err) return logger.err(err);
-    logger.info(this.id + '> from ' + from + ' : ' + content);
+    logger.info(this.id + '> from ' + res.from + ' : ' + res.content);
     hubiquitus.stop();
   }.bind(this));
 }
 
-function bill(from, content, reply) {
-  logger.info(this.id + '> from ' + from + ' : ' + content);
-  reply(null, 'Yes thanks Steve, you\'re great man. !');
+function bill(req) {
+  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+  req.reply(null, 'Yes thanks Steve, you\'re great man. !');
 }

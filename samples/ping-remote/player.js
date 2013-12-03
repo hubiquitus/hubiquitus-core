@@ -8,9 +8,9 @@ var logger = hubiquitus.logger('hubiquitus:core:samples');
 module.exports = function () {
   var count = 0;
 
-  return function (from, content, reply) {
+  return function (req) {
     if (++count%1000 === 0)
-      logger.info('[' + this.id + '] ' + content + ' from ' + from + ' (' + count + ' total)');
-    this.send(from, 'ping');
+      logger.info('[' + this.id + '] ' + req.content + ' from ' + req.from + ' (' + count + ' total)');
+    this.send(req.from, 'ping');
   };
 };

@@ -22,6 +22,6 @@ hubiquitus.start({stats: {enabled: 'true', host: 'localhost', port: 5555}, disco
   .addActor('player5', require('./player')())
   .addActor('player6', require('./player')())
   .send('player4', 'player1', 'PING', 100000)
-  .send('player4', 'player3', 'PING', 110000)
+  //.send('player4', 'player3', 'PING', 110000)
   .send('player5', 'player3', 'PING', 120000)
   .send('player6', 'player2', 'PING', 130000);

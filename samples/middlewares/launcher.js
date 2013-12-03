@@ -13,7 +13,7 @@
 
 var hubiquitus = require(__dirname + '/../../index');
 var logger = hubiquitus.logger('hubiquitus:core:samples');
-logger.level = 'info';
+hubiquitus.logger.enable('hubiquitus:core:samples', 'debug');
 
 hubiquitus.use(middleware1);
 hubiquitus.use(middleware2);
@@ -22,19 +22,19 @@ hubiquitus.start()
   .addActor('linus', linus)
   .send('god', 'linus', 'hello');
 
-function linus(from, content, reply) {
-  logger.info(this.id + '> from ' + from + ' : ' + content);
-  reply(null, 'hi !');
+function linus(req) {
+  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+  req.reply(null, 'hi !');
 }
 
-function middleware1(message, type, next) {
-  logger.info('[m1] invoked (' + type + ')', message);
+function middleware1(type, msg, next) {
+  logger.info('[m1] invoked (' + type + ')', msg);
   next();
 }
 
-function middleware2(message, type, next) {
-  logger.info('[m2] invoked; (' + type + ')', message);
-  if (message.payload.content !== 'hello') {
+function middleware2(type, msg, next) {
+  logger.info('[m2] invoked; (' + type + ')', msg);
+  if (msg.content !== 'hello') {
     logger.info('[m2] content different from "hello" : REJECTED');
   } else {
     next();

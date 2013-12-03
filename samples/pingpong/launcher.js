@@ -12,13 +12,13 @@ hubiquitus.logger.enable('hubiquitus:*');
 hubiquitus.logger.level('hubiquitus:core', 'warn');
 
 hubiquitus
-  .addActor('ping', function (from, content) {
-    logger.info(this.id + '> from ' + from + ' : ' + content);
-    this.send(from, 'PING');
+  .addActor('ping', function (req) {
+    logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+    this.send(req.from, 'PING');
   })
-  .addActor('pong', function (from, content) {
-    logger.info(this.id + '> from ' + from + ' : ' + content);
-    this.send(from, 'PONG');
+  .addActor('pong', function (req) {
+    logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+    this.send(req.from, 'PONG');
   })
   .start()
   .send('pong', 'ping', 'PONG');
