@@ -60,9 +60,9 @@
         </table>
     </div>
 </div>
-<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.3.0/lodash.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
 <script>
@@ -88,10 +88,10 @@
                     return {from: key, to: '', rate: data.counts[key]};
                 } else {
                     var pos = key.indexOf('->');
-                    return pos > 0 ? {from: key.substr(0, pos), to: key.substr(pos + 2), rate: data.counts[key]} : null;
+                    return pos > 0 ? {key: key, from: key.substr(0, pos), to: key.substr(pos + 2), rate: data.counts[key]} : null;
                 }
             }), function (rate) {
-                return rate.to
+                return rate.from === 'global' ? '' : rate.key;
             });
             $scope.$apply(function () {
                 $scope.stats[data.id] = rates;

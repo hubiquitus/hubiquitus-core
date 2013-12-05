@@ -21,7 +21,8 @@
     "should": "2.0.*",
     "mocha": "1.13.*",
     "sockjs": "~0.3.8",
-    "node-static": "~0.7.2"
+    "node-static": "~0.7.2",
+    "async": "~0.2.9"
   },
   "scripts": {
     "test": "mocha -R spec test/*"
