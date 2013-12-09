@@ -19,7 +19,6 @@ describe('actors module', function () {
     fping2: {id: 'fping/2', container: {id: '0', netInfo: {pid: 1, ip: '0.0.0.0'}}},
     fping4: {id: 'fping/3', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}}
   };
-  var testActorsCount = _.keys(testActors).length;
 
   before(function () {
     h.ID = 0;
@@ -88,6 +87,11 @@ describe('actors module', function () {
       actors.remove('ping');
       var retreivedActor = actors.get('ping');
       should.not.exist(retreivedActor);
+    });
+    it('should not remove an actor', function () {
+      actors.remove('ping', actors.scope.REMOTE);
+      var retreivedActor = actors.get('ping');
+      should.exist(retreivedActor);
     });
   });
 
