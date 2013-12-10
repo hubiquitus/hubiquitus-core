@@ -9,8 +9,8 @@
  */
 
 var hubiquitus = require(__dirname + '/../../index');
+hubiquitus.logger.enable('hubiquitus:core:samples', 'trace');
 var logger = hubiquitus.logger('hubiquitus:core:samples');
-hubiquitus.logger.enable('hubiquitus:core:samples');
 
 hubiquitus.start()
   .addActor('steve', steve)
