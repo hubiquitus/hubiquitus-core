@@ -36,6 +36,11 @@
 * hub-34  hubiquitus
 * hub-35  discovery
 * hub-36  hubiquitus
+* hub-37  hubiquitus
+* hub-38  discovery
+* hub-39  discovery
+* hub-40  discovery
+* hub-41  hubiquitus
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
