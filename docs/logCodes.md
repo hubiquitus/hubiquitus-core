@@ -17,7 +17,7 @@
 * hub-17  hubiquitus
 * hub-18  hubiquitus
 * hub-19  hubiquitus
-* hub-20  UNUSED
+* hub-20  hubiquitus
 * hub-21  discovery
 * hub-22  discovery
 * hub-23  discovery
@@ -41,6 +41,7 @@
 * hub-39  discovery
 * hub-40  discovery
 * hub-41  hubiquitus
+* hub-42  hubiquitus
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
