@@ -17,7 +17,7 @@
 * hub-17  hubiquitus
 * hub-18  hubiquitus
 * hub-19  hubiquitus
-* hub-20  discovery
+* hub-20  UNUSED
 * hub-21  discovery
 * hub-22  discovery
 * hub-23  discovery
