@@ -1,14 +1,13 @@
 require('mocha');
 var should = require('should');
-var actors = require(__dirname + '/../lib/actors');
-var h = require(__dirname + '/../lib/hubiquitus');
-var logger = require(__dirname + '/../lib/logger');
-logger.level = 'info';
 var _ = require('lodash');
 
+var actors = require(__dirname + '/../lib/actors');
+var properties = require(__dirname + '/../lib/properties');
+
 describe('actors module', function () {
-  var originalHID = h.ID;
-  var originalNetInfo = h.netInfo;
+  var originalHID = properties.ID;
+  var originalNetInfo = properties.netInfo;
 
   var testActors = {
     ping: {id: 'ping', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
@@ -21,13 +20,13 @@ describe('actors module', function () {
   };
 
   before(function () {
-    h.ID = 0;
-    h.netInfo = {pid: 0, ip: '0.0.0.0'};
+    properties.ID = 0;
+    properties.netInfo = {pid: 0, ip: '0.0.0.0'};
   });
 
   after(function () {
-    h.ID = originalHID;
-    h.netInfo = originalNetInfo;
+    properties.ID = originalHID;
+    properties.netInfo = originalNetInfo;
   });
 
   beforeEach(function () {
