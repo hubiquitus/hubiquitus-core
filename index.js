@@ -4,6 +4,7 @@
 
 var app = require('./lib/application');
 app.logger = require('./lib/logger');
+app.monitoring = require('./lib/monitoring');
 app.utils = {
   aid: require('./lib/utils/aid'),
   ip: require('./lib/utils/ip'),
