@@ -45,6 +45,7 @@
 * hub-43  hubiquitus
 * hub-44  actors
 * hub-45  discovery
+* hub-46  hubiquitus
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
