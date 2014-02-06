@@ -11,11 +11,11 @@ describe('actors module', function () {
 
   var testActors = {
     ping: {id: 'ping', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
-    pong: {id: 'pong', container: {id: '0', netInfo: {pid: 1, ip: '0.0.0.0'}}},
+    pong: {id: 'pong', container: {id: '1', netInfo: {pid: 1, ip: '0.0.0.0'}}},
     peng: {id: 'peng', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}},
     pang: {id: 'pang', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}},
     fping1: {id: 'fping/1', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
-    fping2: {id: 'fping/2', container: {id: '0', netInfo: {pid: 1, ip: '0.0.0.0'}}},
+    fping2: {id: 'fping/2', container: {id: '0', netInfo: {pid: 0, ip: '0.0.0.0'}}},
     fping4: {id: 'fping/3', container: {id: '2', netInfo: {pid: 3, ip: '1.1.1.1'}}}
   };
 
