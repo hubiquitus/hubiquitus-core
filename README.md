@@ -51,10 +51,11 @@ An **actor** is just a piece of code with an id. When a message is sent to this 
   - `this.id` is the actor id
   - `this.send` is a send function taking four arguments : the target actor id, a content, a timeout (optional) and a response callback (optional)
 
-And actor id (or **aid**) has a specific format : [identifier]/[resource]
+And actor id (or **aid**) has a specific format : **[identifier]/[resource]**
+
 The identifier is also called **bare id**.
 
-Example : `hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9`
+Example : `hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9` is a full aid
   - `hello` is the bare id.
   - `de3ef8f1-28f1-4548-95d2-304b70bd01d9` is the resource
 
