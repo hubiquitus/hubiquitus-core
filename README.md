@@ -13,7 +13,7 @@ Create a new folder and run command :
 Then create an index.js file and put inside :
 
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 var logger = hubiquitus.logger('pingpong');
 hubiquitus.logger.enable('pingpong');
 
@@ -24,46 +24,49 @@ hubiquitus
   .start()
   .send('tmp', 'hello');
 ```
-This code does the following
+This code does the following :
 
-  1. it imports hubiquitus
-  2. it creates a logger which namespace is 'pingpong'
-  3. it enables that logger; note that
+  1. Imports hubiquitus library
+  2. Creates a logger with the namespace "pingpong"
+  3. Enables that logger; note that :
     - loggers are disabled by default
-    - loggers enabling can take a second argument which is the minimum log level
-    - log levels are trace, debug, info, warn, error|err
-  4. it creates an hello actor that just log 'Hello World !'
-  5. it starts the container
-  6. it sends a message to the hello actor using a "fake" tmp actor id
+    - logger enabling function can take the minimum log level as a second argument
+    - log levels are, in order : trace, debug, info, warn, error|err
+  4. Creates a "hello" actor that just logs "Hello World !"
+  5. Starts the hubiquitus system
+  6. Sends a message to the hello actor using a "fake" tmp actor id : the hello actor will receive the message from tmp.
 
 Run the sample with command :
 
     $ node index.js
 
-The container is not stopped, so you need to kill the sample with CTRL+C.
+The container will run until you stop the node process. You can kill it with CTRL+C.
 
 ## Concepts
 
 ### Actor
 
-An **actor** is just a piece of code with an id. When a message is sent to this id, the code is executed. Inside an actor code, you have access to
+An **actor** is just a piece of code with an id. When a message is sent to this id, the code is executed. Inside an actor code, you have access to :
 
-  - this.id : the actor id
-  - this.send : a send function taking four arguments : the target actor id, a content, a timeout (optional) and a response callback (optional)
+  - `this.id` is the actor id
+  - `this.send` is a send function taking four arguments : the target actor id, a content, a timeout (optional) and a response callback (optional)
 
-And actor id composed like this : [identifier]/[resource]
+And actor id (or **aid**) has a specific format : **[identifier]/[resource]**
 
-  - example : hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9
-  - 'hello' is the bare id.
-  - 'hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9' is the full id.
+The identifier is also called **bare id**.
 
-The resource is generated at add. It is an uuid.
+Example : `hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9` is a full aid
+  - `hello` is the bare id.
+  - `de3ef8f1-28f1-4548-95d2-304b70bd01d9` is the resource
 
-If a message is sent to a bare id, a full id will be selected to process the message.
+The resource is an **UUID** (unique identifier) generated automatically and added to the bare id of an actor when it is added to a container.
+
+When sending a message, the target can be a full aid, or a bare id. If the target is a bare id, the system will select an existing actor with a matching full id to process the message to.
 
 ### Container
 
-A **container** is a group of actors. Basically, hubiquitus is a singleton that represents that container. Their is one container by node process.
+A **container** is a group of actors. Hubiquitus is a singleton obtained when requiring the hubiquitus-core module.
+Thus, there can be only one container in a node process.
 
 ### Discovery
 
@@ -71,10 +74,10 @@ The **discovery** is the process used so that containers can talk to eachother.
 
 ## Ping-pong sample
 
-Let's create a ping pong game based on actors.
+Let's make a "ping-pong" discussion between two Hubiquitus actors.
 
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 var logger = hubiquitus.logger('pingpong');
 hubiquitus.logger.enable('pingpong');
 
@@ -104,14 +107,14 @@ function pong(req) {
 ```
 
 This code does the following :
-  1. it creates two actors named 'ping' and 'pong'
-  2. it starts the container
-  3. it initiates the dialog between ping and pong by sending a message to ping as pong
+  1. Creates two actors named `ping` and `pong`
+  2. Starts the container
+  3. Initiates the dialog between `ping` and `pong` by sending a message to `ping`, from `pong`
 
-Now let's ping count messages. To do this, we will use the optional scope at actor creation :
+Now let's have the `ping` actor count messages. To do this, we are going to specify a scope when creating the actor. See the code, it's pretty self-explanatory.
 
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 var logger = hubiquitus.logger('pingpong');
 hubiquitus.logger.enable('pingpong');
 
@@ -123,7 +126,7 @@ hubiquitus
 
 function ping(req) {
   this.count++;
-  logger.info('[' + this.count + ']' + this.id + '> from ' + req.from + ' : ' + req.content);
+  logger.info(this.id + '> from ' + req.from + ' : ' + req.content = ' [' + this.count + ']');
 
   var _this = this;
   setTimeout(function () {
@@ -141,47 +144,123 @@ function pong(req) {
 }
 ```
 
-## Hubiquitus features
+Note that when specifying a scope, *id*, *send* and *onMessage* are reserved by the system.
 
-### start
+## Hubiquitus API
+
+Here are the available methods on the Hubiquitus container. 
+
+### start(options)
 
 The start method can be called at any time. Messages sent while hubiquitus isnt started are queued.
 
 Parameters :
 
-  - options {Object}
+|**Parameter**| **Type** |**Description**|**Mandatory**|
+|:-----------:|:--------:|:-------------:|:-----------:|
+|    options  |  Object  |    Options    |      No     |
 
 Available options :
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 9581b7af470c1cd43a87e3d25dee177dd665c2ff
   - discoveryAddr {String}
   - discoveryPort {Number}
   - ip {String}
 
+Example :
+
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 hubiquitus.start({
   discoveryAddr: 'udp://224.0.0.1:5555'
 });
 ```
 
-### stop
+### stop()
 
-Stops hubiquitus.
+Stops the Hubiquitus container. 
 
-### send
+### addActor(aid, onMessage[, scope])
+
+Adds an actor to the container.
+
+Parameters :
+
+|**Parameter**| **Type** |    **Description**    |**Mandatory**|
+|:-----------:|:--------:|:---------------------:|:-----------:|
+|     aid     |  String  |      Receiver aid     |     Yes     |
+|     from    |  String  |       Actor aid       |     Yes     |
+|  onMessage  | Function |  on message behaviour |     Yes     |
+|    scope    |  Object  |      Actor scope      |     No      |
+
+The `onMessage` function is the behaviour executed when receiving a message.
+It takes a `req` Object as an unique parameter :
+  - `from` {String} is the sender aid
+  - `to` {String} is the receiver aid
+  - `content` {*} is the content of the message
+  - `timeout` {Number} is the maximum delay for delivering the message
+  - `date` {Date} is the send date of the message
+  - `reply` {Function} is a function to call to reply to the message
+
+  The `reply` function takes two arguments :
+   - `err` {*} is the optional error
+   - `content` {*} is the response content 
+
+Example :
+
+```js
+var hubiquitus = require('hubiquitus-core');
+
+hubiquitus
+  .addActor('ping', function (req) {
+    this.count++;
+    req.reply(null, 'pong');
+  }, {count: 0});
+  .start();
+```
+
+### removeActor(aid)
+
+Removes an actor from the container.
+
+Parameters :
+
+|**Parameter**| **Type** |  **Description**  |**Mandatory**|
+|:-----------:|:--------:|:-----------------:|:-----------:|
+|     aid     |  String  |     Actor aid     |     Yes     |
+
+### send(to, from, [content, timeout, cb])  
 
 Sends a message from an actor to another.
 
 Parameters :
 
-  - from {String} sender aid
-  - to {String} receiver aid
-  - content {Object} message content
-  - [timeout] {Number} max delay for a response
-  - [cb] {Function} response callback
+|**Parameter**| **Type** |  **Description**  |**Mandatory**|
+|:-----------:|:--------:|:-----------------:|:-----------:|
+|      to     |  String  |    Receiver aid   |     Yes     |
+|     from    |  String  |     Sender aid    |     Yes     |
+|   content   |  Object  |  Message content  |      No     |
+|     cb      | Function | Response callback |      No     |
+
+The `cb` function is the behaviour executed when receiving the message response :
+It takes a two arguments :
+  - `err` {*} is the optional error
+  - `res` {Object} is the response message.
+
+  A `res` message is similar to a `req` message. It contains : 
+   - `from` {String} is the sender aid
+   - `to` {String} is the receiver aid
+   - `content` {*} is the content of the message
+   - `timeout` {Number} is the maximum delay for delivering the message
+   - `date` {Date} is the send date of the message
+
+Example :
 
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 
 hubiquitus
   .addActor('Asriel', asriel)
@@ -202,85 +281,82 @@ function marisa(req) {
 }
 ```
 
-### addActor
+  - A "fake" `Metatron` actor sends a message to `Marisa`
+  - `Marisa` sends a message to `Asriel`
+  - `Asriel` replies to `Marisa`
 
-Adds an actor to the container.
-
-Parameters :
-
-  - aid {String} actor id
-  - actor {Function} actor feature (function)
-  - scope {Object} actor scope (let user use custom scope, default is empty)
-
-```js
-var hubiquitus = require('hubiquitus');
-
-hubiquitus
-  .addActor('ping', function (req) {
-    this.count++;
-    req.reply(null, 'pong');
-  }, {count: 0});
-  .start();
-```
-
-### removeActor
-
-Removes an actor from the container.
-
-Parameters :
-
-  - aid {String} actor id
-
-### use
+### use(function)
 
 Adds a middleware to use.
+The defined function will be executed each time an incoming request comes in or an outcoming request comes out. 
 
 Parameters :
 
-  - middleware {Function} middleware feature (function)
+|**Parameter**| **Type** |  **Description**  |**Mandatory**|
+|:-----------:|:--------:|:-----------------:|:-----------:|
+|   function  | Function |Middleware function|     Yes     |
+
 
 The middleware function takes three parameters :
 
-  - **type** : the message type
-    - *req_out* : the message is an outcomming request
-    - *req_in* : the message is an incomming request
-    - *res_out* : the message is an outcomming response
-    - *res_in* : the message is an incomming response
-  - **message** : the transiting message (a request or a response, depending on the type)
-  - **next** : the callback to call at the end of the process (to call next middleware)
+  - `type` : message type. Is a String, four possibilities :
+   - `req_out` : the message is an outcoming request
+   - `req_in` : the message is an incoming request
+   - `res_out` : the message is an outcoming response
+   - `res_in` : the message is an incoming response
+
+  - `msg` : transiting message (is a request or a response, depending on the type)
+  - `next` : callback to call at the end of the process (to call the next middleware)
+
+Example :
 
 ```js
-var hubiquitus = require('hubiquitus');
-
+var hubiquitus = require('hubiquitus-core');
 hubiquitus
+  .addActor('B', function (req) {
+    logger.info('Hello World !');
+  })
+  .start()
   .use(function (type, msg, next) {
+    var fromAid = hubiquitus.utils.aid.bare(msg.from);
+    var toAid = hubiquitus.utils.aid.bare(msg.to);
     switch (type) {
       case 'req_out':
-        console.log('[outcomming request from ' + msg.from + ' to ' + msg.to + ' !]');
+        console.log('[outcoming request from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'req_in':
-        console.log('[incomming request from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[incoming request from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'res_out':
-        console.log('[outcomming response from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[outcoming response from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'res_in':
-        console.log('[incomming response from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[incoming response from ' + fromAid + ' to ' + toAid + ' !]');
         break;
     }
     next();
   })
-  .start();
+  .send('A', 'B');
 ```
 
-### set
+In the above example, an `A` actor sends a message to a `B` actor inside the same container. The middleware function is executed twice and displays :
+```
+[outcoming request from A to B !]
+[incoming request from A to B !]
+```
+Note that you can start using a middleware after the hubiquitus container has started.
 
-Sets an hubiquitus property.
+### set(key, value)
+
+Sets a hubiquitus property.
 
 Parameters :
 
-  - key {String} property key
-  - value {*} property value
+|**Parameter**| **Type** |**Description** |**Mandatory**|
+|:-----------:|:--------:|:--------------:|:-----------:|
+|     key     |  String  |  Property key  |     Yes     |
+|    value    |     *    | Property value |     Yes     |
+
 
 ## Samples
 
