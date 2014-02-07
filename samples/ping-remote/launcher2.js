@@ -17,7 +17,7 @@ hubiquitus.logger.enable('hubiquitus:*');
 
 //hubiquitus.set('discoveryAddrs', ['udp://192.168.0.50:4444']);
 //hubiquitus.start({discoveryPort: 4445})
-hubiquitus.start({stats: {enabled: 'true', host: 'localhost', port: 5555}, discoveryAddr: 'udp://224.0.0.1:5555'})
+hubiquitus.start({discoveryAddr: 'udp://224.0.0.1:5555'})
   .addActor('player4', require('./player')())
   .addActor('player5', require('./player')())
   .addActor('player6', require('./player')())

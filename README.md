@@ -153,7 +153,6 @@ Parameters :
 
 Available options :
 
-  - stats {Object}
   - discoveryAddr {String}
   - discoveryPort {Number}
   - ip {String}
