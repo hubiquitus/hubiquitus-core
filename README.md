@@ -148,7 +148,7 @@ Note that when specifying a scope, *id*, *send* and *onMessage* are reserved by 
 
 ## Hubiquitus API
 
-Here are the available methods on the Hubiquitus container. 
+Here are the available methods on the Hubiquitus container.
 
 ### start(options)
 
@@ -161,11 +161,7 @@ Parameters :
 |    options  |  Object  |    Options    |      No     |
 
 Available options :
-<<<<<<< HEAD
 
-=======
-   
->>>>>>> 9581b7af470c1cd43a87e3d25dee177dd665c2ff
   - discoveryAddr {String}
   - discoveryPort {Number}
   - ip {String}
@@ -181,7 +177,7 @@ hubiquitus.start({
 
 ### stop()
 
-Stops the Hubiquitus container. 
+Stops the Hubiquitus container.
 
 ### addActor(aid, onMessage[, scope])
 
@@ -207,7 +203,7 @@ It takes a `req` Object as an unique parameter :
 
   The `reply` function takes two arguments :
    - `err` {*} is the optional error
-   - `content` {*} is the response content 
+   - `content` {*} is the response content
 
 Example :
 
@@ -232,7 +228,7 @@ Parameters :
 |:-----------:|:--------:|:-----------------:|:-----------:|
 |     aid     |  String  |     Actor aid     |     Yes     |
 
-### send(to, from, [content, timeout, cb])  
+### send(to, from, [content, timeout, cb])
 
 Sends a message from an actor to another.
 
@@ -250,7 +246,7 @@ It takes a two arguments :
   - `err` {*} is the optional error
   - `res` {Object} is the response message.
 
-  A `res` message is similar to a `req` message. It contains : 
+  A `res` message is similar to a `req` message. It contains :
    - `from` {String} is the sender aid
    - `to` {String} is the receiver aid
    - `content` {*} is the content of the message
@@ -288,7 +284,7 @@ function marisa(req) {
 ### use(function)
 
 Adds a middleware to use.
-The defined function will be executed each time an incoming request comes in or an outcoming request comes out. 
+The defined function will be executed each time an incoming request comes in or an outcoming request comes out.
 
 Parameters :
 
