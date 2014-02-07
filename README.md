@@ -255,12 +255,12 @@ Parameters :
 
 The middleware function takes three parameters :
 
-  - `type` : message type
-  Is a String, four possibilities :
-    - `req_out` : the message is an outcoming request
-    - `req_in` : the message is an incoming request
-    - `res_out` : the message is an outcoming response
-    - `res_in` : the message is an incoming response
+  - `type` : message type. Is a String, four possibilities :
+   - `req_out` : the message is an outcoming request
+   - `req_in` : the message is an incoming request
+   - `res_out` : the message is an outcoming response
+   - `res_in` : the message is an incoming response
+
   - `message` : transiting message (is a request or a response, depending on the type)
   - `next` : callback to call at the end of the process (to call the next middleware)
 
@@ -290,7 +290,7 @@ hubiquitus
   .start();
 ```
 
-### set
+### set(key; value)
 
 Sets an hubiquitus property.
 
