@@ -31,10 +31,10 @@ This code does the following :
   3. Enables that logger; note that :
     - loggers are disabled by default
     - logger enabling function can take the minimum log level as a second argument
-    - log levels are in order : trace, debug, info, warn, error|err
+    - log levels are, in order : trace, debug, info, warn, error|err
   4. Creates a "hello" actor that just logs "Hello World !"
-  5. Starts the hubiquitus container
-  6. Sends a message to the hello actor using a "fake" tmp actor id : the hello actor will receive the message from tmp. 
+  5. Starts the hubiquitus system
+  6. Sends a message to the hello actor using a "fake" tmp actor id : the hello actor will receive the message from tmp.
 
 Run the sample with command :
 
@@ -46,24 +46,26 @@ The container will run until you stop the node process. You can kill it with CTR
 
 ### Actor
 
-An **actor** is just a piece of code with an id. When a message is sent to this id, the code is executed. Inside an actor code, you have access to
+An **actor** is just a piece of code with an id. When a message is sent to this id, the code is executed. Inside an actor code, you have access to :
 
-  - `this.id` : the actor id
-  - `this.send` : a send function taking four arguments : the target actor id, a content, a timeout (optional) and a response callback (optional)
+  - `this.id` is the actor id
+  - `this.send` is a send function taking four arguments : the target actor id, a content, a timeout (optional) and a response callback (optional)
 
 And actor id (or **aid**) has a specific format : [identifier]/[resource]
 The identifier is also called **bare id**.
-Examples : `hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9`
+
+Example : `hello/de3ef8f1-28f1-4548-95d2-304b70bd01d9`
   - `hello` is the bare id.
   - `de3ef8f1-28f1-4548-95d2-304b70bd01d9` is the resource
 
 The resource is an **UUID** (unique identifier) generated automatically and added to the bare id of an actor when it is added to a container.
 
-When sending a message, the target can be a full aid, or a bare id. If the target is a bare id, the system will select an existing actor to process the message.
+When sending a message, the target can be a full aid, or a bare id. If the target is a bare id, the system will select an existing actor with a matching full id to process the message to.
 
 ### Container
 
-A **container** is a group of actors. Basically, hubiquitus is a singleton that represents that container. Their is one container by node process.
+A **container** is a group of actors. Hubiquitus is a singleton obtained when requiring the hubiquitus-core module.
+Thus, there can be only one container in a node process.
 
 ### Discovery
 
@@ -141,7 +143,11 @@ function pong(req) {
 }
 ```
 
-## Hubiquitus features
+Note that when specifying a scope, *id*, *send* and *onMessage* are reserved by the system.
+
+## Hubiquitus API
+
+Here are the available methods on the Hubiquitus container. 
 
 ### start(options)
 
@@ -149,17 +155,20 @@ The start method can be called at any time. Messages sent while hubiquitus isnt 
 
 Parameters :
 
-  - options {Object}
+|**Parameter**| **Type** |**Description**|**Mandatory**|
+|:-----------:|:--------:|:-------------:|:-----------:|
+|    options  |  Object  |    Options    |      No     |
 
-   Available options :
-    - stats {Object}
-    - discoveryAddr {String}
-    - discoveryPort {Number}
-    - ip {String}
+Available options :
+   
+  - discoveryAddr {String}
+  - discoveryPort {Number}
+  - ip {String}
 
+Example :
 
 ```js
-var hubiquitus = require('hubiquitus');
+var hubiquitus = require('hubiquitus-core');
 hubiquitus.start({
   discoveryAddr: 'udp://224.0.0.1:5555'
 });
@@ -169,55 +178,31 @@ hubiquitus.start({
 
 Stops the Hubiquitus container. 
 
-### send(to, from, [content, timeout, cb]  
-
-Sends a message from an actor to another.
-
-Parameters :
-
-|**Parameter**| **Type** |  **Description**  |**Mandatory**|
-|:-----------:|:--------:|:-----------------:|:-----------:|
-|      to     |  String  |    Receiver aid   |     Yes     |
-|     from    |  String  |     Sender aid    |     Yes     |
-|   content   |  Object  |  Message content  |      No     |
-|     cb      | Function | Response callback |      No     |
-
-Example :
-
-```js
-var hubiquitus = require('hubiquitus');
-
-hubiquitus
-  .addActor('Asriel', asriel)
-  .addActor('Marisa', marisa)
-  .send('Metatron', 'Marisa', 'Greets Asriel for me!')
-  .start();
-
-function asriel(req) {
-  console.log('Asriel> from ' + hubiquitus.utils.aid.bare(req.from) + ' : ' + req.content);
-  req.reply(null, '...');
-}
-
-function marisa(req) {
-  console.log('Marisa> from ' + hubiquitus.utils.aid.bare(req.from) + ' : ' + req.content);
-  this.send('Asriel', 'Hello from Metatron !', function (err, res) {
-    console.log('Marisa> response from ' + hubiquitus.utils.aid.bare(res.from) + ' : ' + res.content);
-  });
-}
-```
-
-### addActor(aid, actorFunction[, scope])
+### addActor(aid, onMessage[, scope])
 
 Adds an actor to the container.
 
 Parameters :
 
-|**Parameter**| **Type** |  **Description**  |**Mandatory**|
-|:-----------:|:--------:|:-----------------:|:-----------:|
-|     aid     |  String  |    Receiver aid   |     Yes     |
-|     from    |  String  |     Actor aid     |     Yes     |
-|actorFunction| Function |  Definition function  |      Yes     |
-|    scope    |  Object  | Actor scope |      No     |
+|**Parameter**| **Type** |    **Description**    |**Mandatory**|
+|:-----------:|:--------:|:---------------------:|:-----------:|
+|     aid     |  String  |      Receiver aid     |     Yes     |
+|     from    |  String  |       Actor aid       |     Yes     |
+|  onMessage  | Function |  on message behaviour |     Yes     |
+|    scope    |  Object  |      Actor scope      |     No      |
+
+The `onMessage` function is the behaviour executed when receiving a message.
+It takes a `req` Object as an unique parameter :
+  - `from` {String} is the sender aid
+  - `to` {String} is the receiver aid
+  - `content` {*} is the content of the message
+  - `timeout` {Number} is the maximum delay for delivering the message
+  - `date` {Date} is the send date of the message
+  - `reply` {Function} is a function to call to reply to the message
+
+  The `reply` function takes two arguments :
+   - `err` {*} is the optional error
+   - `content` {*} is the response content 
 
 Example :
 
@@ -242,15 +227,69 @@ Parameters :
 |:-----------:|:--------:|:-----------------:|:-----------:|
 |     aid     |  String  |     Actor aid     |     Yes     |
 
-### use(middlewareFunction)
+### send(to, from, [content, timeout, cb])  
 
-Adds a middleware to use.
+Sends a message from an actor to another.
 
 Parameters :
 
-|   **Parameter**  | **Type** |  **Description**  |**Mandatory**|
-|:----------------:|:--------:|:-----------------:|:-----------:|
-|middlewareFunction| Function |Middleware function|     Yes     |
+|**Parameter**| **Type** |  **Description**  |**Mandatory**|
+|:-----------:|:--------:|:-----------------:|:-----------:|
+|      to     |  String  |    Receiver aid   |     Yes     |
+|     from    |  String  |     Sender aid    |     Yes     |
+|   content   |  Object  |  Message content  |      No     |
+|     cb      | Function | Response callback |      No     |
+
+The `cb` function is the behaviour executed when receiving the message response :
+It takes a two arguments :
+  - `err` {*} is the optional error
+  - `res` {Object} is the response message.
+
+  A `res` message is similar to a `req` message. It contains : 
+   - `from` {String} is the sender aid
+   - `to` {String} is the receiver aid
+   - `content` {*} is the content of the message
+   - `timeout` {Number} is the maximum delay for delivering the message
+   - `date` {Date} is the send date of the message
+
+Example :
+
+```js
+var hubiquitus = require('hubiquitus-core');
+
+hubiquitus
+  .addActor('Asriel', asriel)
+  .addActor('Marisa', marisa)
+  .send('Metatron', 'Marisa', 'Greets Asriel for me!')
+  .start();
+
+function asriel(req) {
+  console.log('Asriel> from ' + hubiquitus.utils.aid.bare(req.from) + ' : ' + req.content);
+  req.reply(null, '...');
+}
+
+function marisa(req) {
+  console.log('Marisa> from ' + hubiquitus.utils.aid.bare(req.from) + ' : ' + req.content);
+  this.send('Asriel', 'Hello from Metatron !', function (err, res) {
+    console.log('Marisa> response from ' + hubiquitus.utils.aid.bare(res.from) + ' : ' + res.content);
+  });
+}
+```
+
+  - A "fake" `Metatron` actor sends a message to `Marisa`
+  - `Marisa` sends a message to `Asriel`
+  - `Asriel` replies to `Marisa`
+
+### use(function)
+
+Adds a middleware to use.
+The defined function will be executed each time an incoming request comes in or an outcoming request comes out. 
+
+Parameters :
+
+|**Parameter**| **Type** |  **Description**  |**Mandatory**|
+|:-----------:|:--------:|:-----------------:|:-----------:|
+|   function  | Function |Middleware function|     Yes     |
 
 
 The middleware function takes three parameters :
@@ -261,43 +300,55 @@ The middleware function takes three parameters :
    - `res_out` : the message is an outcoming response
    - `res_in` : the message is an incoming response
 
-  - `message` : transiting message (is a request or a response, depending on the type)
+  - `msg` : transiting message (is a request or a response, depending on the type)
   - `next` : callback to call at the end of the process (to call the next middleware)
 
 Example :
 
 ```js
-var hubiquitus = require('hubiquitus');
-
+var hubiquitus = require('hubiquitus-core');
 hubiquitus
+  .addActor('B', function (req) {
+    logger.info('Hello World !');
+  })
+  .start()
   .use(function (type, msg, next) {
+    var fromAid = hubiquitus.utils.aid.bare(msg.from);
+    var toAid = hubiquitus.utils.aid.bare(msg.to);
     switch (type) {
       case 'req_out':
-        console.log('[outcoming request from ' + msg.from + ' to ' + msg.to + ' !]');
+        console.log('[outcoming request from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'req_in':
-        console.log('[incoming request from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[incoming request from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'res_out':
-        console.log('[outcoming response from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[outcoming response from ' + fromAid + ' to ' + toAid + ' !]');
         break;
       case 'res_in':
-        console.log('[incoming response from ' + msg.from + ' to ' + msg.to + '  !]');
+        console.log('[incoming response from ' + fromAid + ' to ' + toAid + ' !]');
         break;
     }
     next();
   })
-  .start();
+  .send('A', 'B');
 ```
 
-### set(key; value)
+In the above example, an `A` actor sends a message to a `B` actor inside the same container. The middleware function is executed twice and displays :
+```
+[outcoming request from A to B !]
+[incoming request from A to B !]
+```
+Note that you can start using a middleware after the hubiquitus container has started.
 
-Sets an hubiquitus property.
+### set(key, value)
+
+Sets a hubiquitus property.
 
 Parameters :
 
 |**Parameter**| **Type** |**Description** |**Mandatory**|
-|:-----------:|:--------:|:-----------------:|:-----------:|
+|:-----------:|:--------:|:--------------:|:-----------:|
 |     key     |  String  |  Property key  |     Yes     |
 |    value    |     *    | Property value |     Yes     |
 
