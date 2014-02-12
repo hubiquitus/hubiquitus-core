@@ -144,7 +144,7 @@ function pong(req) {
 }
 ```
 
-Note that when specifying a scope, *id*, *send* and *onMessage* are reserved by the system.
+Note that when specifying a scope, `id`, `send`, `onMessage` and `scope` are reserved by the system.
 
 ## Hubiquitus API
 
