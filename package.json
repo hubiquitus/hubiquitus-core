@@ -1,7 +1,7 @@
 {
   "name": "hubiquitus-core",
   "description": "Actor model for Hubiquitus",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "homepage": "http://www.hubiquitus.com",
   "repository": {
     "type": "git",
@@ -20,9 +20,7 @@
     "jshint": "2.3.*",
     "sinon": "1.7.*",
     "should": "2.0.*",
-    "mocha": "1.13.*",
-    "sockjs": "~0.3.8",
-    "node-static": "~0.7.2"
+    "mocha": "1.13.*"
   },
   "scripts": {
     "test": "mocha -R spec test/*"
