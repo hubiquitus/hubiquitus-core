@@ -13,6 +13,7 @@ hubiquitus.logger.enable('hubiquitus:core:samples', 'trace');
 var logger = hubiquitus.logger('hubiquitus:core:samples');
 
 hubiquitus.start()
+  .set('name', 'request-reply sample')
   .addActor('steve', steve)
   .addActor('bill', bill)
   .send('linus', 'steve', 'Bill might need your iWings :) !');
