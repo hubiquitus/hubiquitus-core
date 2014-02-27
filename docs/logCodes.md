@@ -7,7 +7,7 @@
 * hub-7   discovery
 * hub-8   discovery
 * hub-9   discovery
-* hub-10  discovery
+* hub-10  UNUSED
 * hub-11  discovery
 * hub-12  discovery
 * hub-13  application
@@ -48,6 +48,8 @@
 * hub-46  application
 * hub-47  discovery
 * hub-48  application
+* hub-49  discovery
+* hub-50  application
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
