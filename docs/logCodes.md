@@ -7,7 +7,7 @@
 * hub-7   discovery
 * hub-8   discovery
 * hub-9   discovery
-* hub-10  UNUSED
+* hub-10  application
 * hub-11  discovery
 * hub-12  discovery
 * hub-13  application
