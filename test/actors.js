@@ -4,9 +4,12 @@ var _ = require('lodash');
 
 var actors = require(__dirname + '/../lib/actors');
 var properties = require(__dirname + '/../lib/properties');
+var utils = {
+  aid: require(__dirname + '/../lib/utils/aid')
+};
 
 describe('actors module', function () {
-  var originalHID = properties.ID;
+  var originalID = properties.ID;
   var originalNetInfo = properties.netInfo;
 
   var testActors = {
@@ -25,7 +28,7 @@ describe('actors module', function () {
   });
 
   after(function () {
-    properties.ID = originalHID;
+    properties.ID = originalID;
     properties.netInfo = originalNetInfo;
   });
 
@@ -41,31 +44,65 @@ describe('actors module', function () {
     });
   });
 
+  describe('getAll function', function () {
+    it('should return [fping/1]', function () {
+      var aids = actors.getAll('fping/1');
+      should.exist(aids);
+      aids.should.be.an.instanceof(Array);
+      aids.should.have.length(1);
+      aids[0].should.be.eql('fping/1');
+    });
+    it('should return [fping/1, fping/2, fping/3]', function () {
+      var aids = actors.getAll('fping');
+      should.exist(aids);
+      aids.should.be.an.instanceof(Array);
+      aids.should.have.length(3);
+    });
+    it('should return [fping/3]', function () {
+      var aids = actors.getAll('fping', actors.scope.REMOTE);
+      should.exist(aids);
+      aids.should.be.an.instanceof(Array);
+      aids.should.have.length(1);
+      aids[0].should.be.eql('fping/3');
+    });
+    it('should return []', function () {
+      var aids = actors.getAll('fake');
+      should.exist(aids);
+      aids.should.be.an.instanceof(Array);
+      aids.should.be.empty;
+    });
+  });
+
   describe('get function', function () {
     it('should return ping actor', function () {
-      var actor = actors.get('ping');
-      should.exist(actor);
+      var aids = actors.getAll('ping');
+      aids.should.have.length(1);
+      var actor = actors.get(aids[0]);
       actor.should.be.eql(testActors.ping);
       actor.scope.should.be.eql(actors.scope.PROCESS);
     });
     it('should return null', function () {
-      should.not.exist(actors.get('fake'));
+      var actor = actors.get('fake');
+      should.not.exist(actor);
     });
     it('should return ping actor (force scope : process)', function () {
-      var actor = actors.get('ping', actors.scope.PROCESS);
-      should.exist(actor);
+      var aids = actors.getAll('ping');
+      aids.should.have.length(1);
+      var actor = actors.get(aids[0], actors.scope.PROCESS);
       actor.should.be.eql(testActors.ping);
       actor.scope.should.be.eql(actors.scope.PROCESS);
     });
     it('should return pong actor (force scope : local)', function () {
-      var actor = actors.get('pong', actors.scope.LOCAL);
-      should.exist(actor);
+      var aids = actors.getAll('pong');
+      aids.should.have.length(1);
+      var actor = actors.get(aids[0], actors.scope.LOCAL);
       actor.should.be.eql(testActors.pong);
       actor.scope.should.be.eql(actors.scope.LOCAL);
     });
     it('should return peng actor (force scope : remote)', function () {
-      var actor = actors.get('peng', actors.scope.REMOTE);
-      should.exist(actor);
+      var aids = actors.getAll('peng');
+      aids.should.have.length(1);
+      var actor = actors.get(aids[0], actors.scope.REMOTE);
       actor.should.be.eql(testActors.peng);
       actor.scope.should.be.eql(actors.scope.REMOTE);
     });
@@ -75,7 +112,9 @@ describe('actors module', function () {
     it('should add an actor', function () {
       var actor = {id: 'tmp', container: {id: '12', netInfo: {pid: 123, ip: '1.2.3.4'}}};
       actors.add(actor);
-      var retreivedActor = actors.get('tmp');
+      var aids = actors.getAll('tmp');
+      aids.should.have.length(1);
+      var retreivedActor = actors.get(aids[0]);
       should.exist(retreivedActor);
       retreivedActor.should.be.eql(actor);
     });
@@ -84,32 +123,23 @@ describe('actors module', function () {
   describe('remove function', function () {
     it('should remove an actor', function () {
       actors.remove('ping');
-      var retreivedActor = actors.get('ping');
-      should.not.exist(retreivedActor);
+      var aids = actors.getAll('ping');
+      aids.should.have.length(0);
     });
     it('should not remove an actor', function () {
       actors.remove('ping', actors.scope.REMOTE);
-      var retreivedActor = actors.get('ping');
-      should.exist(retreivedActor);
+      var aids = actors.getAll('ping');
+      aids.should.have.length(1);
     });
   });
 
   describe('removeByContainer function', function () {
     it('should remove peng and pang', function () {
       actors.removeByContainer('2');
-      var retreivedActor = actors.get('peng');
-      should.not.exist(retreivedActor);
-      retreivedActor = actors.get('pang');
-      should.not.exist(retreivedActor);
-    });
-  });
-
-  describe('exists function', function () {
-    it('should return true', function () {
-      actors.exists('ping').should.be.eql(true);
-    });
-    it('should return false', function () {
-      actors.exists('fake').should.be.eql(false);
+      var aids = actors.getAll('peng');
+      aids.should.have.length(0);
+      aids = actors.getAll('pang');
+      aids.should.have.length(0);
     });
   });
 
@@ -117,35 +147,22 @@ describe('actors module', function () {
     it('should return ping', function () {
       var aid = actors.pick('ping');
       should.exist(aid);
-      aid.should.be.eql('ping');
+      utils.aid.bare(aid).should.be.eql('ping');
     });
     it('should return a process element', function () {
       var aid = actors.pick('fping');
       should.exist(aid);
-      aid.should.have.type('string');
+      utils.aid.bare(aid).should.be.eql('fping');
       actors.get(aid).scope.should.be.eql(actors.scope.PROCESS);
     });
   });
 
-  describe('pickAll function', function () {
-    it('should return fping1', function () {
-      var aids = actors.pickAll('fping/1');
-      should.exist(aids);
-      aids.should.be.an.instanceof(Array);
-      aids.should.have.length(1);
-      aids[0].should.be.eql('fping/1');
+  describe('exists function', function () {
+    it('should return true', function () {
+      actors.exists(actors.pick('ping')).should.be.eql(true);
     });
-    it('should return one element', function () {
-      var aids = actors.pickAll('fping');
-      should.exist(aids);
-      aids.should.be.an.instanceof(Array);
-      aids.should.have.length(3);
-    });
-    it('should return one element', function () {
-      var aids = actors.pickAll('fping', actors.scope.REMOTE);
-      should.exist(aids);
-      aids.should.be.an.instanceof(Array);
-      aids.should.have.length(1);
+    it('should return false', function () {
+      actors.exists(actors.pick('fake')).should.be.eql(false);
     });
   });
 });
