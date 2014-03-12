@@ -64,8 +64,8 @@ describe('application mecanisms', function () {
         res.headers.should.have.type('object', 'actor tmp : res.headers should be an object');
         res.headers.should.be.empty;
         res.id.should.have.type('string', 'actor tmp : res.id should be a string');
-        res.id.should.be.eql(id);
-        count.should.be.eql(1);
+        res.id.should.be.eql(id, 'actor tmp : res.id should be the same as req.id at actor sample');
+        count.should.be.eql(1, 'actor tmp : actor sample code should have been invoked once');
         done();
       });
     });
@@ -74,9 +74,9 @@ describe('application mecanisms', function () {
   it('send failure due to a timeout', function (done) {
     app.send('tmp', 'sample', 'hello', 1, function (err) {
       process.nextTick(function () {
-        should.exist(err);
+        should.exist(err, 'actor tmp : err should exist (timeout expected)');
         err.should.have.key('code');
-        err.code.should.be.eql('TIMEOUT');
+        err.code.should.be.eql('TIMEOUT', 'actor tmp : err.code should be "TIMEOUT"');
         done();
       });
     });
@@ -91,10 +91,10 @@ describe('application mecanisms', function () {
     };
     app.use(function (type, msg, next) {
       process.nextTick(function () {
-        type.should.be.type('string');
-        _.keys(counts).should.containEql(type);
-        msg.should.be.type('object');
-        next.should.be.type('function');
+        type.should.be.type('string', 'middleware : type should be a string');
+        _.keys(counts).should.containEql(type, 'middleware : type should be in ' + _.keys(counts));
+        msg.should.be.type('object', 'middleware : msg should be an object');
+        next.should.be.type('function', 'middleware : next should be a function');
         counts[type]++;
         next();
       });
@@ -106,9 +106,9 @@ describe('application mecanisms', function () {
 
     app.send('tmp', 'sample', 'hello', function (err) {
       process.nextTick(function () {
-        should.not.exist(err);
+        should.not.exist(err, 'actor tmp : err should not exist');
         _.forEach(counts, function (value, key) {
-          value.should.be.eql(1, key + ' should be 1');
+          value.should.be.eql(1, 'actor tmp : counts["' + key + '"] should be 1');
         });
         done();
       });
