@@ -39,9 +39,7 @@ describe('actors module', function () {
   });
 
   afterEach(function () {
-    _.forOwn(testActors, function (actor) {
-      actors.remove(actor.id);
-    });
+    actors.clear();
   });
 
   describe('getAll function', function () {
