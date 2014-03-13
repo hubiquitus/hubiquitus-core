@@ -134,7 +134,7 @@ describe('framework patterns', function () {
       done();
     });
 
-    it('events (inproc communication)', function (done) {
+    it('events through monitoring API (inproc communication)', function (done) {
       var counts = {
         actorAdded: 0,
         actorRemoved: 0,
@@ -186,12 +186,19 @@ describe('framework patterns', function () {
       monitoring.on('discovery started', function (aid) {
         should.exist(aid);
         aid.should.be.eql('sample');
+        var discoveries = monitoring.discoveries();
+        should.exist(discoveries);
+        discoveries.should.have.type('object');
+        discoveries.should.have.key(aid);
         counts.discoveryStart++;
       });
 
       monitoring.on('discovery stopped', function (aid) {
         should.exist(aid);
         aid.should.be.eql('sample');
+        var discoveries = monitoring.discoveries();
+        should.exist(discoveries);
+        discoveries.should.have.type('object');
         counts.discoveryStop++;
       });
 
@@ -204,6 +211,12 @@ describe('framework patterns', function () {
       app.addActor('sample', function (req) {
         req.reply();
       });
+
+      var aids = monitoring.actors();
+      should.exist(aids);
+      aids.should.be.instanceOf(Array);
+      aids.should.have.length(1);
+      utils.aid.bare(aids[0]).should.be.eql('sample');
 
       app.send('tmp', 'sample', 'Hello', function () {
         app.removeActor('sample');
