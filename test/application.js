@@ -21,11 +21,13 @@ describe('framework patterns', function () {
   });
 
   afterEach(function (done) {
-    actors.clear();
+    app.removeActor('sample');
+    app.removeActor('fake');
     app.stop(done);
   });
 
   describe('application mecanisms', function () {
+
     it('inproc request/reply sample->tmp', function (done) {
       var count = 0;
       var id = '';
@@ -115,125 +117,170 @@ describe('framework patterns', function () {
     });
   });
 
-  describe('monitoring events', function () {
-    var discoveryTimeout = properties.discoveryTimeout;
-    var discoveryMaxInterval = properties.discoveryMaxInterval;
-    var discoveryMinInterval = properties.discoveryMinInterval;
-
-    before(function (done) {
-      properties.discoveryTimeout = 210;
-      properties.discoveryMinInterval = 100;
-      properties.discoveryMaxInterval = 100;
+  describe('monitoring API', function () {
+    afterEach(function (done) {
+      monitoring.removeAllListeners();
       done();
     });
 
-    after(function (done) {
-      properties.discoveryTimeout = discoveryTimeout;
-      properties.discoveryMinInterval = discoveryMaxInterval;
-      properties.discoveryMaxInterval = discoveryMinInterval;
-      done();
+    describe('events & status access', function () {
+      var discoveryTimeout = properties.discoveryTimeout;
+      var discoveryMaxInterval = properties.discoveryMaxInterval;
+      var discoveryMinInterval = properties.discoveryMinInterval;
+
+      before(function (done) {
+        properties.discoveryTimeout = 210;
+        properties.discoveryMinInterval = 100;
+        properties.discoveryMaxInterval = 100;
+        done();
+      });
+
+      after(function (done) {
+        properties.discoveryTimeout = discoveryTimeout;
+        properties.discoveryMinInterval = discoveryMaxInterval;
+        properties.discoveryMaxInterval = discoveryMinInterval;
+        done();
+      });
+
+      it('events & status through monitoring API (inproc communication)', function (done) {
+        var counts = {
+          actorAdded: 0,
+          actorRemoved: 0,
+          reqSent: 0,
+          reqReceived: 0,
+          resSent: 0,
+          resReceived: 0,
+          discoveryStart: 0,
+          discoveryStop: 0,
+          discovery: 0
+        };
+
+        var aids = monitoring.actors();
+        should.exist(aids);
+        aids.should.be.instanceOf(Array);
+        var initActorsCount = aids.length;
+
+        monitoring.on('actor added', function (aid, scope) {
+          counts.actorAdded++;
+          aid.should.have.type('string', 'Actor added aid should be a string');
+          scope.should.be.eql('process', 'Actor added scope should be "process"');
+        });
+
+        monitoring.on('actor removed', function (aid, scope) {
+          counts.actorRemoved++;
+          aid.should.have.type('string', 'Actor removed aid should be a string');
+          scope.should.be.eql('process', 'Actor removed scope should be "process"');
+        });
+
+        monitoring.on('req sent', function (req) {
+          should.exist(req, 'Req sent should exist');
+          req.should.have.type('object', 'Req sent should be an object');
+          counts.reqSent++;
+        });
+
+        monitoring.on('req received', function (req) {
+          should.exist(req, 'Req received should exist');
+          req.should.have.type('object', 'Req received should be an object');
+          counts.reqReceived++;
+        });
+
+        monitoring.on('res sent', function (res) {
+          should.exist(res, 'Res sent should exist');
+          res.should.have.type('object', 'Res sent should be an object');
+          counts.resSent++;
+        });
+
+        monitoring.on('res received', function (req) {
+          should.exist(req, 'Res received should exist');
+          req.should.have.type('object', 'Res received should be an object');
+          counts.resReceived++;
+        });
+
+        monitoring.on('discovery started', function (aid) {
+          should.exist(aid);
+          aid.should.be.eql('sample');
+          var discoveries = monitoring.discoveries();
+          should.exist(discoveries);
+          discoveries.should.have.type('object');
+          discoveries.should.have.key(aid);
+          counts.discoveryStart++;
+        });
+
+        monitoring.on('discovery stopped', function (aid) {
+          should.exist(aid);
+          aid.should.be.eql('sample');
+          var discoveries = monitoring.discoveries();
+          should.exist(discoveries);
+          discoveries.should.have.type('object');
+          counts.discoveryStop++;
+        });
+
+        monitoring.on('discovery', function (aid) {
+          should.exist(aid);
+          aid.should.be.eql('sample');
+          counts.discovery++;
+        });
+
+        app.addActor('sample', function (req) {
+          req.reply();
+        });
+
+        aids = monitoring.actors();
+        aids.should.have.length(initActorsCount + 1);
+        utils.aid.bare(aids[initActorsCount]).should.be.eql('sample');
+
+        app.send('tmp', 'sample', 'Hello', function () {
+          app.removeActor('sample');
+          process.nextTick(function () {
+            counts.actorAdded.should.be.eql(1, 'One actor should have been added');
+            counts.actorRemoved.should.be.eql(1, 'One actor should have been removed');
+            counts.reqSent.should.be.eql(1, 'One request should have been sent');
+            counts.reqReceived.should.be.eql(1, 'One request should have been received');
+            counts.resSent.should.be.eql(1, 'One response should have been sent');
+            counts.resReceived.should.be.eql(1, 'One response should have been received');
+
+            setTimeout(function () {
+              counts.discoveryStart.should.be.eql(1, 'One discovery should have been started');
+              counts.discoveryStop.should.be.eql(1, 'One discovery should have been stopped');
+              counts.discovery.should.be.eql(3, '4 discoveries should have been processed');
+              done();
+            }, 310);
+          });
+        });
+      });
     });
 
-    it('events through monitoring API (inproc communication)', function (done) {
-      var counts = {
-        actorAdded: 0,
-        actorRemoved: 0,
-        reqSent: 0,
-        reqReceived: 0,
-        resSent: 0,
-        resReceived: 0,
-        discoveryStart: 0,
-        discoveryStop: 0,
-        discovery: 0
-      };
+    describe('container ping', function () {
+      var containerPingTimeout = properties.containerPingTimeout;
 
-      monitoring.on('actor added', function (aid, scope) {
-        counts.actorAdded++;
-        aid.should.have.type('string', 'Actor added aid should be a string');
-        scope.should.be.eql('process', 'Actor added scope should be "process"');
+      before(function (done) {
+        properties.containerPingTimeout = 100;
+        done();
       });
 
-      monitoring.on('actor removed', function (aid, scope) {
-        counts.actorRemoved++;
-        aid.should.have.type('string', 'Actor removed aid should be a string');
-        scope.should.be.eql('process', 'Actor removed scope should be "process"');
+      after(function (done) {
+        properties.containerPingTimeout = containerPingTimeout;
+        done();
       });
 
-      monitoring.on('req sent', function (req) {
-        should.exist(req, 'Req sent should exist');
-        req.should.have.type('object', 'Req sent should be an object');
-        counts.reqSent++;
+      it('ping my own container', function (done) {
+        monitoring.pingContainer(properties.ID, function (err) {
+          process.nextTick(function () {
+            should.not.exist(err);
+          });
+          done();
+        });
       });
 
-      monitoring.on('req received', function (req) {
-        should.exist(req, 'Req received should exist');
-        req.should.have.type('object', 'Req received should be an object');
-        counts.reqReceived++;
-      });
-
-      monitoring.on('res sent', function (res) {
-        should.exist(res, 'Res sent should exist');
-        res.should.have.type('object', 'Res sent should be an object');
-        counts.resSent++;
-      });
-
-      monitoring.on('res received', function (req) {
-        should.exist(req, 'Res received should exist');
-        req.should.have.type('object', 'Res received should be an object');
-        counts.resReceived++;
-      });
-
-      monitoring.on('discovery started', function (aid) {
-        should.exist(aid);
-        aid.should.be.eql('sample');
-        var discoveries = monitoring.discoveries();
-        should.exist(discoveries);
-        discoveries.should.have.type('object');
-        discoveries.should.have.key(aid);
-        counts.discoveryStart++;
-      });
-
-      monitoring.on('discovery stopped', function (aid) {
-        should.exist(aid);
-        aid.should.be.eql('sample');
-        var discoveries = monitoring.discoveries();
-        should.exist(discoveries);
-        discoveries.should.have.type('object');
-        counts.discoveryStop++;
-      });
-
-      monitoring.on('discovery', function (aid) {
-        should.exist(aid);
-        aid.should.be.eql('sample');
-        counts.discovery++;
-      });
-
-      app.addActor('sample', function (req) {
-        req.reply();
-      });
-
-      var aids = monitoring.actors();
-      should.exist(aids);
-      aids.should.be.instanceOf(Array);
-      aids.should.have.length(1);
-      utils.aid.bare(aids[0]).should.be.eql('sample');
-
-      app.send('tmp', 'sample', 'Hello', function () {
-        app.removeActor('sample');
-        process.nextTick(function () {
-          counts.actorAdded.should.be.eql(1, 'One actor should have been added');
-          counts.actorRemoved.should.be.eql(1, 'One actor should have been removed');
-          counts.reqSent.should.be.eql(1, 'One request should have been sent');
-          counts.reqReceived.should.be.eql(1, 'One request should have been received');
-          counts.resSent.should.be.eql(1, 'One response should have been sent');
-          counts.resReceived.should.be.eql(1, 'One response should have been received');
-
-          setTimeout(function () {
-            counts.discoveryStart.should.be.eql(1, 'One discovery should have been started');
-            counts.discoveryStop.should.be.eql(1, 'One discovery should have been stopped');
-            counts.discovery.should.be.eql(3, '4 discoveries should have been processed');
+      it('ping fake container', function (done) {
+        monitoring.pingContainer('fake', function (err) {
+          process.nextTick(function () {
+            should.exist(err);
+            err.should.have.type('object');
+            err.should.have.key('code');
+            err.code.should.be.eql('TIMEOUT');
             done();
-          }, 310);
+          });
         });
       });
     });

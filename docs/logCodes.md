@@ -50,6 +50,7 @@
 * hub-48  application
 * hub-49  discovery
 * hub-50  application
+* hub-51  monitoring
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 adapters/remote
