@@ -39,7 +39,9 @@ describe('actors module', function () {
   });
 
   afterEach(function () {
-    actors.clear();
+    _.forOwn(testActors, function (actor) {
+      actors.remove(actor);
+    });
   });
 
   describe('getAll function', function () {
