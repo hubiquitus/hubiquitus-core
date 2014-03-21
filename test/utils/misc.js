@@ -1,7 +1,6 @@
 var sinon = require('sinon');
 require('mocha');
 require('should');
-var os = require('os');
 var misc = require(__dirname + '/../../lib/utils/misc');
 
 describe('misc module', function () {
