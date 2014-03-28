@@ -41,7 +41,7 @@ describe('framework patterns', function () {
           utils.aid.bare(req.from).should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
           utils.aid.bare(req.to).should.be.eql('sample', 'actor sample : req.to should be "sample"');
           req.content.should.be.eql('hello', 'actor sample : req.content should be "hello"');
-          req.timeout.should.be.eql(2000, 'actor sample : req.timeout should be "2000"');
+          req.timeout.should.be.eql(1500, 'actor sample : req.timeout should be "2000"');
           req.cb.should.be.eql(true, 'actor sample : req.cb.should.be "true"');
           req.date.should.have.type('number', 'actor sample : req.date should be a number');
           req.headers.should.have.type('object', 'actor sample : req.headers should be an object');
@@ -53,7 +53,7 @@ describe('framework patterns', function () {
         });
       });
 
-      app.send('tmp', 'sample', 'hello', 2000, function (err, res) {
+      app.send('tmp', 'sample', 'hello', 1500, function (err, res) {
         process.nextTick(function () {
           should.exist(res, 'actor tmp : res should exist');
           res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
