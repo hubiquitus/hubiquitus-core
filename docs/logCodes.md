@@ -78,4 +78,5 @@
 * hub-124 adapters/remote
 * hub-125 adapters/remote
 * hub-126 adapters/remote
+* hub-127 adapters/remote
 * hub-200 utils/aid
