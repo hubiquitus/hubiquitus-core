@@ -1,0 +1,5 @@
+#!/bin/bash
+
+PROJECT="$(dirname ${BASH_SOURCE[0]})/.."
+cd $PROJECT
+find ./lib ./test ./samples -name "*.js"|xargs jshint

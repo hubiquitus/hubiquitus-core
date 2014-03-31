@@ -6,6 +6,7 @@
   "boss": true,
   "esnext": true,
   "expr": true,
+  "proto": true,
   "sub": true,
   "validthis": true,
   "node": true

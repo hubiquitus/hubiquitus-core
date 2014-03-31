@@ -40,7 +40,7 @@ describe('actors module', function () {
 
   afterEach(function () {
     _.forOwn(testActors, function (actor) {
-      actors.remove(actor);
+      actors.remove(actor.id);
     });
   });
 
@@ -108,18 +108,6 @@ describe('actors module', function () {
     });
   });
 
-  describe('add function', function () {
-    it('should add an actor', function () {
-      var actor = {id: 'tmp', container: {id: '12', netInfo: {pid: 123, ip: '1.2.3.4'}}};
-      actors.add(actor);
-      var aids = actors.getAll('tmp');
-      aids.should.have.length(1);
-      var retreivedActor = actors.get(aids[0]);
-      should.exist(retreivedActor);
-      retreivedActor.should.be.eql(actor);
-    });
-  });
-
   describe('remove function', function () {
     it('should remove an actor', function () {
       actors.remove('ping');
@@ -140,6 +128,19 @@ describe('actors module', function () {
       aids.should.have.length(0);
       aids = actors.getAll('pang');
       aids.should.have.length(0);
+    });
+  });
+
+  describe('add function', function () {
+    it('should add an actor', function () {
+      var actor = {id: 'tmp', container: {id: '12', netInfo: {pid: 123, ip: '1.2.3.4'}}};
+      actors.add(actor);
+      var aids = actors.getAll('tmp');
+      aids.should.have.length(1);
+      var retreivedActor = actors.get(aids[0]);
+      should.exist(retreivedActor);
+      retreivedActor.should.be.eql(actor);
+      actors.remove('tmp');
     });
   });
 

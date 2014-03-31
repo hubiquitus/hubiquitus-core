@@ -1,17 +1,23 @@
+## To find codes list
+
+    $ grep -ohR "hub-\d*" lib/|cut -d'-' -f2|sort -n
+
+## Codes
+
 * hub-1   application
 * hub-2   application
 * hub-3   application
 * hub-4   application
-* hub-5   discovery
-* hub-6   discovery
+* hub-5   UNUSED
+* hub-6   UNUSED
 * hub-7   discovery
 * hub-8   discovery
 * hub-9   discovery
 * hub-10  application
 * hub-11  discovery
 * hub-12  discovery
-* hub-13  application
-* hub-14  application
+* hub-13  UNUSED
+* hub-14  UNUSED
 * hub-15  application
 * hub-16  application
 * hub-17  application
@@ -20,8 +26,8 @@
 * hub-20  application
 * hub-21  discovery
 * hub-22  discovery
-* hub-23  discovery
-* hub-24  application
+* hub-23  UNUSED
+* hub-24  UNUSED
 * hub-25  application
 * hub-26  application
 * hub-27  application
@@ -39,8 +45,8 @@
 * hub-37  application
 * hub-38  discovery
 * hub-39  discovery
-* hub-40  discovery
-* hub-41  application
+* hub-40  UNUSED
+* hub-41  UNUSED
 * hub-42  application
 * hub-43  application
 * hub-44  actors
@@ -51,9 +57,12 @@
 * hub-49  discovery
 * hub-50  application
 * hub-51  monitoring
+* hub-52  application
+* hub-53  application
+* hub-54  discovery
 * hub-100 adapters/remote
 * hub-101 adapters/remote
-* hub-102 adapters/remote
+* hub-102 UNUSED
 * hub-103 adapters/remote
 * hub-104 adapters/remote
 * hub-105 adapters/remote
@@ -63,15 +72,15 @@
 * hub-109 adapters/remote
 * hub-110 adapters/remote
 * hub-111 adapters/remote
-* hub-112 adapters/remote
-* hub-113 adapters/remote
+* hub-112 UNUSED
+* hub-113 UNUSED
 * hub-114 adapters/remote
 * hub-115 adapters/remote
 * hub-116 adapters/remote
 * hub-117 adapters/remote
-* hub-118 adapters/remote
+* hub-118 UNUSED
 * hub-119 adapters/remote
-* hub-120 adapters/remote
+* hub-120 UNUSED
 * hub-121 adapters/remote
 * hub-122 adapters/remote
 * hub-123 adapters/remote

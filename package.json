@@ -1,7 +1,7 @@
 {
   "name": "hubiquitus-core",
   "description": "Actor model for Hubiquitus",
-  "version": "0.8.11",
+  "version": "0.8.12",
   "homepage": "http://www.hubiquitus.com",
   "repository": {
     "type": "git",
