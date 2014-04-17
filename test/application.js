@@ -10,9 +10,6 @@ var app = require(__dirname + '/../lib/application');
 var actors = require(__dirname + '/../lib/actors');
 var properties = require(__dirname + '/../lib/properties');
 var monitoring = require(__dirname + '/../lib/monitoring');
-var utils = {
-  aid: require(__dirname + '/../lib/utils/aid')
-};
 
 describe('framework patterns', function () {
 
@@ -37,9 +34,9 @@ describe('framework patterns', function () {
         process.nextTick(function () {
           should.exist(req, 'actor sample : req should exist');
           req.should.have.keys('from', 'to', 'content', 'timeout', 'cb', 'date', 'id', 'headers', 'reply');
-          utils.aid.bare(_this.id).should.be.eql('sample', 'actor sample : this.id should be "sample"');
-          utils.aid.bare(req.from).should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
-          utils.aid.bare(req.to).should.be.eql('sample', 'actor sample : req.to should be "sample"');
+          _this.id.should.be.eql('sample', 'actor sample : this.id should be "sample"');
+          req.from.should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
+          req.to.should.be.eql('sample', 'actor sample : req.to should be "sample"');
           req.content.should.be.eql('hello', 'actor sample : req.content should be "hello"');
           req.timeout.should.be.eql(1500, 'actor sample : req.timeout should be "2000"');
           req.cb.should.be.eql(true, 'actor sample : req.cb.should.be "true"');
@@ -58,8 +55,8 @@ describe('framework patterns', function () {
           should.exist(res, 'actor tmp : res should exist');
           res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
           should.not.exist(res.err, 'actor tmp : res.error should be null');
-          utils.aid.bare(res.from).should.be.eql('sample', 'actor tmp : res.from should be "sample"');
-          utils.aid.bare(res.to).should.be.eql('tmp', 'actor tmp : res.to should be "tmp"');
+          res.from.should.be.eql('sample', 'actor tmp : res.from should be "sample"');
+          res.to.should.be.eql('tmp', 'actor tmp : res.to should be "tmp"');
           res.content.should.be.eql('hi', 'actor tmp : res.content should be "hi"');
           res.date.should.have.type('number', 'actor tmp : res.date should be a number');
           res.headers.should.have.type('object', 'actor tmp : res.headers should be an object');
@@ -227,7 +224,7 @@ describe('framework patterns', function () {
 
         aids = monitoring.actors();
         aids.should.have.length(initActorsCount + 1);
-        utils.aid.bare(aids[initActorsCount]).should.be.eql('sample');
+        aids[initActorsCount].should.be.eql('sample');
 
         app.send('tmp', 'sample', 'Hello', function () {
           app.removeActor('sample');
