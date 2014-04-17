@@ -18,6 +18,7 @@ describe('framework patterns', function () {
   });
 
   afterEach(function (done) {
+    this.timeout(10000);
     app.removeActor('sample');
     app.removeActor('fake');
     app.stop(done);
@@ -143,6 +144,8 @@ describe('framework patterns', function () {
         var counts = {
           actorAdded: 0,
           actorRemoved: 0,
+          cacheActorAdded: 0,
+          cacheActorRemoved: 0,
           reqSent: 0,
           reqReceived: 0,
           resSent: 0,
@@ -157,16 +160,26 @@ describe('framework patterns', function () {
         aids.should.be.instanceOf(Array);
         var initActorsCount = aids.length;
 
-        monitoring.on('actor added', function (aid, scope) {
+        monitoring.on('actor added', function (aid) {
           counts.actorAdded++;
           aid.should.have.type('string', 'Actor added aid should be a string');
-          scope.should.be.eql('process', 'Actor added scope should be "process"');
         });
 
-        monitoring.on('actor removed', function (aid, scope) {
+        monitoring.on('actor removed', function (aid) {
           counts.actorRemoved++;
           aid.should.have.type('string', 'Actor removed aid should be a string');
-          scope.should.be.eql('process', 'Actor removed scope should be "process"');
+        });
+
+        monitoring.on('cache actor added', function (aid, cid) {
+          counts.cacheActorAdded++;
+          aid.should.have.type('string', 'Actor added aid should be a string');
+          cid.should.have.type('string', 'Container added aid should be a string');
+        });
+
+        monitoring.on('cache actor removed', function (aid, cid) {
+          counts.cacheActorRemoved++;
+          aid.should.have.type('string', 'Actor removed aid should be a string');
+          cid.should.have.type('string', 'Container removed aid should be a string');
         });
 
         monitoring.on('req sent', function (req) {
@@ -231,6 +244,8 @@ describe('framework patterns', function () {
           process.nextTick(function () {
             counts.actorAdded.should.be.eql(1, 'One actor should have been added');
             counts.actorRemoved.should.be.eql(1, 'One actor should have been removed');
+            counts.cacheActorAdded.should.be.eql(1, 'One actor should have been added in cache');
+            counts.cacheActorRemoved.should.be.eql(1, 'One actor should have been removed from cache');
             counts.reqSent.should.be.eql(1, 'One request should have been sent');
             counts.reqReceived.should.be.eql(1, 'One request should have been received');
             counts.resSent.should.be.eql(1, 'One response should have been sent');
@@ -261,7 +276,7 @@ describe('framework patterns', function () {
       });
 
       it('ping my own container', function (done) {
-        monitoring.pingContainer(properties.ID, function (err) {
+        monitoring.pingContainer(properties.container.ID, function (err) {
           process.nextTick(function () {
             should.not.exist(err);
           });
