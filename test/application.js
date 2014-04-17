@@ -18,7 +18,6 @@ describe('framework patterns', function () {
   });
 
   afterEach(function (done) {
-    this.timeout(10000);
     app.removeActor('sample');
     app.removeActor('fake');
     app.stop(done);
