@@ -19,7 +19,7 @@ describe('actors & cache modules', function () {
     app.stop(done);
   });
 
-  describe('add actor', function () {
+  describe('add & remove actor', function () {
 
     it('should add actor to actors and to cache', function (done) {
       var actorAdded = 0;
@@ -52,6 +52,40 @@ describe('actors & cache modules', function () {
       actors.on('actor added', actorAddedListener);
 
       actors.add({id: 'sample'});
+    });
+
+    it('should remove actor from actors and from cache', function (done) {
+      var actorRemoved = 0;
+      var cacheActorRemoved = 0;
+
+      function cacheActorRemovedListener(aid, cid) {
+        cacheActorRemoved++;
+
+        should.exist(aid);
+        aid.should.have.type('string', 'aid should be a string');
+        should.exist(cid);
+        aid.should.have.type('string', 'cid should be a string');
+        cid.should.be.eql(properties.container.ID);
+      }
+
+      function actorRemovedListener(aid) {
+        actorRemoved++;
+
+        should.exist(aid);
+        aid.should.have.type('string', 'aid should be a string');
+
+        cacheActorRemoved.should.be.eql(1);
+        actorRemoved.should.be.eql(1);
+        cache.removeListener('actor removed', cacheActorRemovedListener);
+        actors.removeListener('actor removed', actorRemovedListener);
+        done();
+      }
+
+      cache.on('actor removed', cacheActorRemovedListener);
+      actors.on('actor removed', actorRemovedListener);
+
+      actors.add({id: 'sample'});
+      actors.remove('sample');
     });
   });
 });
