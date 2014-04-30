@@ -113,4 +113,102 @@ describe('actors & cache modules', function () {
     aids.should.containEql('fake');
     done();
   });
+
+  it('should pick an container from cache', function (done) {
+    actors.add({id: 'sample'}); // local actor
+    var fakeContainer = {ID: 'fakeContainerID'};
+    cache.add('sample', fakeContainer);
+
+    var next = null;
+    for (var i = 0; i < 10; i++) {
+      var cid = cache.pick('sample');
+      should.exist(cid);
+      cid.should.have.type('string');
+      if (next === null) {
+        [properties.container.ID, fakeContainer.ID].should.containEql(cid);
+        next = cid;
+      } else {
+        cid.should.be.eql(next);
+      }
+      next = (next === properties.container.ID) ? fakeContainer.ID : properties.container.ID;
+    }
+
+    done();
+  });
+
+  it('should get a container from cache', function (done) {
+    actors.add({id: 'sample'});
+    var container = cache.getContainer(properties.container.ID);
+    should.exist(container);
+    container.should.be.eql(properties.container);
+    done();
+  });
+
+  it('should disable then enable container', function (done) {
+    var oldContainerDisableTime = properties.containerDisableTime;
+    properties.containerDisableTime = 50;
+
+    actors.add({id: 'sample'});
+    cache.disableContainer(properties.container.ID);
+    var container = cache.getContainer(properties.container.ID);
+    should.exist(container.disabled);
+    container.disabled.should.be.eql(true);
+
+    setTimeout(function () {
+      var container = cache.getContainer(properties.container.ID);
+      should.not.exist(container.disabled);
+
+      properties.containerDisableTime = oldContainerDisableTime;
+      done();
+    }, 75);
+  });
+
+  it('should get all cache actors ids', function (done) {
+    actors.add({id: 'sample'});
+    cache.add('fake', {ID: 'fakeContainerID'});
+
+    var aids = cache.actors();
+    should.exist(aids);
+    aids.should.be.instanceOf(Array);
+    aids.should.containEql('sample');
+    aids.should.containEql('fake');
+
+    done();
+  });
+
+  it('should get all cache containers ids', function (done) {
+    actors.add({id: 'sample'});
+    var fakeContainer = {ID: 'fakeContainerID', name: 'fakeContainer'};
+    cache.add({id: 'fake'}, fakeContainer);
+
+    var cids = cache.containers();
+    should.exist(cids);
+    cids.should.be.instanceOf(Array);
+    cids.should.containEql(_.pick(properties.container, ['ID', 'name']));
+    cids.should.containEql(fakeContainer);
+
+    done();
+  });
+
+  it('should clear cache and sync local actors', function (done) {
+    actors.add({id: 'sample'});
+    var fakeContainer = {ID: 'fakeContainerID', name: 'fakeContainer'};
+    cache.add({id: 'fake'}, fakeContainer);
+
+    function cacheClearedListener() {
+      var aids = cache.actors();
+      aids.should.containEql('sample');
+      aids.should.not.containEql('fake');
+
+      var cids = cache.containers();
+      cids.should.containEql(_.pick(properties.container, ['ID', 'name']));
+      cids.should.not.containEql(fakeContainer);
+
+      cache.removeListener('cleared', cacheClearedListener);
+      done();
+    }
+
+    cache.on('cleared', cacheClearedListener);
+    cache.clear();
+  });
 });
