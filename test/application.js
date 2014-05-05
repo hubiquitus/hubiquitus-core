@@ -2,6 +2,8 @@
  * The process.nextTick in those tests are used to avoid AssertionError to be caught by a try/catch in the tested code.
  */
 
+var proc = require('child_process');
+
 require('mocha');
 var should = require('should');
 var _ = require('lodash');
@@ -54,6 +56,7 @@ describe('framework patterns', function () {
 
       app.send('tmp', 'sample', 'hello', timeout, function (err, res) {
         process.nextTick(function () {
+          should.not.exist(err);
           should.exist(res, 'actor tmp : res should exist');
           res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
           should.not.exist(res.err, 'actor tmp : res.error should be null');
@@ -69,6 +72,32 @@ describe('framework patterns', function () {
           done();
         });
       });
+    });
+
+    it('remote request/reply sample->remote_sample', function (done) {
+      var timeout = 1000;
+
+      var remoteProc = proc.fork(__dirname + '/_resources/remote');
+
+      setTimeout(function () {
+        app.send('sample', 'remote_sample', 'hello', timeout, function (err, res) {
+          remoteProc.kill();
+          process.nextTick(function () {
+            should.not.exist(err);
+            should.exist(res, 'res should exist');
+            res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
+            should.not.exist(res.err, 'res.error should be null');
+            res.from.should.be.eql('remote_sample', 'res.from should be "remote_sample"');
+            res.to.should.be.eql('sample', 'res.to should be "sample"');
+            res.content.should.have.type('string', 'res.content should be a string');
+            res.date.should.have.type('number', 'res.date should be a number');
+            res.headers.should.have.type('object', 'res.headers should be an object');
+            res.headers.should.be.empty;
+            res.id.should.have.type('string', 'res.id should be a string');
+            done();
+          });
+        });
+      }, 500);
     });
 
     it('send failure due to a timeout', function (done) {

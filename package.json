@@ -24,6 +24,6 @@
     "mocha": "1.17.*"
   },
   "scripts": {
-    "test": "mocha -R spec test/*"
+    "test": "mocha -R spec test/application.js test/actors_cache.js test/utils/*"
   }
 }
