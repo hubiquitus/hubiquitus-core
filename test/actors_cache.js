@@ -30,7 +30,7 @@ describe('actors & cache modules', function () {
       aid.should.have.type('string', 'aid should be a string');
       should.exist(cid);
       aid.should.have.type('string', 'cid should be a string');
-      cid.should.be.eql(properties.container.ID);
+      cid.should.be.eql(properties.container.id);
     }
 
     function actorAddedListener(aid) {
@@ -63,7 +63,7 @@ describe('actors & cache modules', function () {
       aid.should.have.type('string', 'aid should be a string');
       should.exist(cid);
       aid.should.have.type('string', 'cid should be a string');
-      cid.should.be.eql(properties.container.ID);
+      cid.should.be.eql(properties.container.id);
     }
 
     function actorRemovedListener(aid) {
@@ -116,7 +116,7 @@ describe('actors & cache modules', function () {
 
   it('should pick an container from cache', function (done) {
     actors.add({id: 'sample'}); // local actor
-    var fakeContainer = {ID: 'fakeContainerID'};
+    var fakeContainer = {id: 'fakeContainerid'};
     cache.add('sample', fakeContainer);
 
     var next = null;
@@ -125,12 +125,12 @@ describe('actors & cache modules', function () {
       should.exist(cid);
       cid.should.have.type('string');
       if (next === null) {
-        [properties.container.ID, fakeContainer.ID].should.containEql(cid);
+        [properties.container.id, fakeContainer.id].should.containEql(cid);
         next = cid;
       } else {
         cid.should.be.eql(next);
       }
-      next = (next === properties.container.ID) ? fakeContainer.ID : properties.container.ID;
+      next = (next === properties.container.id) ? fakeContainer.id : properties.container.id;
     }
 
     done();
@@ -138,7 +138,7 @@ describe('actors & cache modules', function () {
 
   it('should get a container from cache', function (done) {
     actors.add({id: 'sample'});
-    var container = cache.getContainer(properties.container.ID);
+    var container = cache.getContainer(properties.container.id);
     should.exist(container);
     container.should.be.eql(properties.container);
     done();
@@ -149,13 +149,13 @@ describe('actors & cache modules', function () {
     properties.containerDisableTime = 50;
 
     actors.add({id: 'sample'});
-    cache.disableContainer(properties.container.ID);
-    var container = cache.getContainer(properties.container.ID);
+    cache.disableContainer(properties.container.id);
+    var container = cache.getContainer(properties.container.id);
     should.exist(container.disabled);
     container.disabled.should.be.eql(true);
 
     setTimeout(function () {
-      var container = cache.getContainer(properties.container.ID);
+      var container = cache.getContainer(properties.container.id);
       should.not.exist(container.disabled);
 
       properties.containerDisableTime = oldContainerDisableTime;
@@ -165,7 +165,7 @@ describe('actors & cache modules', function () {
 
   it('should get all cache actors ids', function (done) {
     actors.add({id: 'sample'});
-    cache.add('fake', {ID: 'fakeContainerID'});
+    cache.add('fake', {id: 'fakeContainerid'});
 
     var aids = cache.actors();
     should.exist(aids);
@@ -178,13 +178,13 @@ describe('actors & cache modules', function () {
 
   it('should get all cache containers ids', function (done) {
     actors.add({id: 'sample'});
-    var fakeContainer = {ID: 'fakeContainerID', name: 'fakeContainer'};
+    var fakeContainer = {id: 'fakeContainerid', name: 'fakeContainer'};
     cache.add({id: 'fake'}, fakeContainer);
 
     var cids = cache.containers();
     should.exist(cids);
     cids.should.be.instanceOf(Array);
-    cids.should.containEql(_.pick(properties.container, ['ID', 'name']));
+    cids.should.containEql(_.pick(properties.container, ['id', 'name']));
     cids.should.containEql(fakeContainer);
 
     done();
@@ -192,7 +192,7 @@ describe('actors & cache modules', function () {
 
   it('should clear cache and sync local actors', function (done) {
     actors.add({id: 'sample'});
-    var fakeContainer = {ID: 'fakeContainerID', name: 'fakeContainer'};
+    var fakeContainer = {id: 'fakeContainerid', name: 'fakeContainer'};
     cache.add({id: 'fake'}, fakeContainer);
 
     function cacheClearedListener() {
@@ -201,7 +201,7 @@ describe('actors & cache modules', function () {
       aids.should.not.containEql('fake');
 
       var cids = cache.containers();
-      cids.should.containEql(_.pick(properties.container, ['ID', 'name']));
+      cids.should.containEql(_.pick(properties.container, ['id', 'name']));
       cids.should.not.containEql(fakeContainer);
 
       cache.removeListener('cleared', cacheClearedListener);

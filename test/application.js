@@ -306,7 +306,7 @@ describe('framework patterns', function () {
       });
 
       it('ping my own container', function (done) {
-        monitoring.pingContainer(properties.container.ID, function (err) {
+        monitoring.pingContainer(properties.container.id, function (err) {
           process.nextTick(function () {
             should.not.exist(err);
           });
