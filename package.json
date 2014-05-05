@@ -15,7 +15,8 @@
     "lodash": "2.2.*",
     "tv4": "1.0.11",
     "async": "0.2.*",
-    "node-uuid": "1.4.*"
+    "node-uuid": "1.4.*",
+    "toobusy": "0.2.4"
   },
   "devDependencies": {
     "jshint": "2.3.*",
