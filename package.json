@@ -1,7 +1,7 @@
 {
   "name": "hubiquitus-core",
   "description": "Actor model for Hubiquitus",
-  "version": "0.8.12",
+  "version": "0.9.0",
   "homepage": "http://www.hubiquitus.com",
   "repository": {
     "type": "git",
@@ -24,6 +24,6 @@
     "mocha": "1.17.*"
   },
   "scripts": {
-    "test": "mocha -R spec test/*"
+    "test": "mocha -R spec test/application.js test/actors_cache.js test/utils/*"
   }
 }

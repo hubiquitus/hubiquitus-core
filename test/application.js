@@ -2,6 +2,8 @@
  * The process.nextTick in those tests are used to avoid AssertionError to be caught by a try/catch in the tested code.
  */
 
+var proc = require('child_process');
+
 require('mocha');
 var should = require('should');
 var _ = require('lodash');
@@ -10,9 +12,6 @@ var app = require(__dirname + '/../lib/application');
 var actors = require(__dirname + '/../lib/actors');
 var properties = require(__dirname + '/../lib/properties');
 var monitoring = require(__dirname + '/../lib/monitoring');
-var utils = {
-  aid: require(__dirname + '/../lib/utils/aid')
-};
 
 describe('framework patterns', function () {
 
@@ -30,18 +29,20 @@ describe('framework patterns', function () {
 
     it('inproc request/reply sample->tmp', function (done) {
       var count = 0;
-      var id = '';
+      var id = null;
+      var timeout = 500;
+
       app.addActor('sample', function (req) {
         count++;
         var _this = this;
         process.nextTick(function () {
           should.exist(req, 'actor sample : req should exist');
           req.should.have.keys('from', 'to', 'content', 'timeout', 'cb', 'date', 'id', 'headers', 'reply');
-          utils.aid.bare(_this.id).should.be.eql('sample', 'actor sample : this.id should be "sample"');
-          utils.aid.bare(req.from).should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
-          utils.aid.bare(req.to).should.be.eql('sample', 'actor sample : req.to should be "sample"');
+          _this.id.should.be.eql('sample', 'actor sample : this.id should be "sample"');
+          req.from.should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
+          req.to.should.be.eql('sample', 'actor sample : req.to should be "sample"');
           req.content.should.be.eql('hello', 'actor sample : req.content should be "hello"');
-          req.timeout.should.be.eql(1500, 'actor sample : req.timeout should be "2000"');
+          req.timeout.should.be.eql(timeout, 'actor sample : req.timeout should be "2000"');
           req.cb.should.be.eql(true, 'actor sample : req.cb.should.be "true"');
           req.date.should.have.type('number', 'actor sample : req.date should be a number');
           req.headers.should.have.type('object', 'actor sample : req.headers should be an object');
@@ -53,13 +54,14 @@ describe('framework patterns', function () {
         });
       });
 
-      app.send('tmp', 'sample', 'hello', 1500, function (err, res) {
+      app.send('tmp', 'sample', 'hello', timeout, function (err, res) {
         process.nextTick(function () {
+          should.not.exist(err);
           should.exist(res, 'actor tmp : res should exist');
           res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
           should.not.exist(res.err, 'actor tmp : res.error should be null');
-          utils.aid.bare(res.from).should.be.eql('sample', 'actor tmp : res.from should be "sample"');
-          utils.aid.bare(res.to).should.be.eql('tmp', 'actor tmp : res.to should be "tmp"');
+          res.from.should.be.eql('sample', 'actor tmp : res.from should be "sample"');
+          res.to.should.be.eql('tmp', 'actor tmp : res.to should be "tmp"');
           res.content.should.be.eql('hi', 'actor tmp : res.content should be "hi"');
           res.date.should.have.type('number', 'actor tmp : res.date should be a number');
           res.headers.should.have.type('object', 'actor tmp : res.headers should be an object');
@@ -70,6 +72,32 @@ describe('framework patterns', function () {
           done();
         });
       });
+    });
+
+    it('remote request/reply sample->remote_sample', function (done) {
+      var timeout = 1000;
+
+      var remoteProc = proc.fork(__dirname + '/_resources/remote');
+
+      setTimeout(function () {
+        app.send('sample', 'remote_sample', 'hello', timeout, function (err, res) {
+          remoteProc.kill();
+          process.nextTick(function () {
+            should.not.exist(err);
+            should.exist(res, 'res should exist');
+            res.should.have.keys('from', 'to', 'content', 'err', 'date', 'id', 'headers');
+            should.not.exist(res.err, 'res.error should be null');
+            res.from.should.be.eql('remote_sample', 'res.from should be "remote_sample"');
+            res.to.should.be.eql('sample', 'res.to should be "sample"');
+            res.content.should.have.type('string', 'res.content should be a string');
+            res.date.should.have.type('number', 'res.date should be a number');
+            res.headers.should.have.type('object', 'res.headers should be an object');
+            res.headers.should.be.empty;
+            res.id.should.have.type('string', 'res.id should be a string');
+            done();
+          });
+        });
+      }, 500);
     });
 
     it('send failure due to a timeout', function (done) {
@@ -146,6 +174,8 @@ describe('framework patterns', function () {
         var counts = {
           actorAdded: 0,
           actorRemoved: 0,
+          cacheActorAdded: 0,
+          cacheActorRemoved: 0,
           reqSent: 0,
           reqReceived: 0,
           resSent: 0,
@@ -160,16 +190,26 @@ describe('framework patterns', function () {
         aids.should.be.instanceOf(Array);
         var initActorsCount = aids.length;
 
-        monitoring.on('actor added', function (aid, scope) {
+        monitoring.on('actor added', function (aid) {
           counts.actorAdded++;
           aid.should.have.type('string', 'Actor added aid should be a string');
-          scope.should.be.eql('process', 'Actor added scope should be "process"');
         });
 
-        monitoring.on('actor removed', function (aid, scope) {
+        monitoring.on('actor removed', function (aid) {
           counts.actorRemoved++;
           aid.should.have.type('string', 'Actor removed aid should be a string');
-          scope.should.be.eql('process', 'Actor removed scope should be "process"');
+        });
+
+        monitoring.on('cache actor added', function (aid, cid) {
+          counts.cacheActorAdded++;
+          aid.should.have.type('string', 'Actor added aid should be a string');
+          cid.should.have.type('string', 'Container added aid should be a string');
+        });
+
+        monitoring.on('cache actor removed', function (aid, cid) {
+          counts.cacheActorRemoved++;
+          aid.should.have.type('string', 'Actor removed aid should be a string');
+          cid.should.have.type('string', 'Container removed aid should be a string');
         });
 
         monitoring.on('req sent', function (req) {
@@ -227,13 +267,15 @@ describe('framework patterns', function () {
 
         aids = monitoring.actors();
         aids.should.have.length(initActorsCount + 1);
-        utils.aid.bare(aids[initActorsCount]).should.be.eql('sample');
+        aids[initActorsCount].should.be.eql('sample');
 
         app.send('tmp', 'sample', 'Hello', function () {
           app.removeActor('sample');
           process.nextTick(function () {
             counts.actorAdded.should.be.eql(1, 'One actor should have been added');
             counts.actorRemoved.should.be.eql(1, 'One actor should have been removed');
+            counts.cacheActorAdded.should.be.eql(1, 'One actor should have been added in cache');
+            counts.cacheActorRemoved.should.be.eql(1, 'One actor should have been removed from cache');
             counts.reqSent.should.be.eql(1, 'One request should have been sent');
             counts.reqReceived.should.be.eql(1, 'One request should have been received');
             counts.resSent.should.be.eql(1, 'One response should have been sent');
@@ -264,7 +306,7 @@ describe('framework patterns', function () {
       });
 
       it('ping my own container', function (done) {
-        monitoring.pingContainer(properties.ID, function (err) {
+        monitoring.pingContainer(properties.container.ID, function (err) {
           process.nextTick(function () {
             should.not.exist(err);
           });
