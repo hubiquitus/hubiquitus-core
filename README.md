@@ -228,7 +228,7 @@ Parameters :
 |:-----------:|:--------:|:-----------------:|:-----------:|
 |     aid     |  String  |     Actor aid     |     Yes     |
 
-### send(to, from, [content, timeout, cb])
+### send(from, to, [content, timeout, cb])
 
 Sends a message from an actor to another.
 
@@ -236,8 +236,8 @@ Parameters :
 
 |**Parameter**| **Type** |  **Description**  |**Mandatory**|
 |:-----------:|:--------:|:-----------------:|:-----------:|
-|      to     |  String  |    Receiver aid   |     Yes     |
 |     from    |  String  |     Sender aid    |     Yes     |
+|      to     |  String  |    Receiver aid   |     Yes     |
 |   content   |  Object  |  Message content  |      No     |
 |     cb      | Function | Response callback |      No     |
 
@@ -252,6 +252,10 @@ It takes a two arguments :
    - `content` {*} is the content of the message
    - `timeout` {Number} is the maximum delay for delivering the message
    - `date` {Date} is the send date of the message
+
+This function also exists within an actor fgunction with the following syntax :
+
+   **send(to, [content, timeout, cb])**
 
 Example :
 
@@ -297,7 +301,7 @@ The middleware function takes three parameters :
 
   - `type` : message type. Is a String, four possibilities :
    - `req_out` : the message is an outcoming request
-   - `req_in` : the message is an incoming request
+   - `req_in` :wit the message is an incoming request
    - `res_out` : the message is an outcoming response
    - `res_in` : the message is an incoming response
 
