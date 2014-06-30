@@ -11,7 +11,7 @@ hubiquitus.start({discoveryAddr: 'udp://224.0.0.1:5555'})
   .addActor('test', function () {
     setTimeout(function () {
       var n = 20;
-      this.send('fibonacci', n, 300000, function (req) {
+      hubiquitus.send('test', 'fibonacci', n, 300000, function (req) {
         console.log('Result :', 'ƒ ' + n + ' = ' + req.content);
       });
     }.bind(this), 1000);

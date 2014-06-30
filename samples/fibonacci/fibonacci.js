@@ -1,9 +1,10 @@
 var async = require('async');
+var hubiquitus = require('hubiquitus-core');
 
 module.exports = function () {
 
   return function (req) {
-    var _this = this;
+    var id = req.to;
     var n = req.content;
 
     if (n <= 2) {
@@ -13,14 +14,14 @@ module.exports = function () {
       async.series([
         function (callback) {
           setTimeout(function () {
-            _this.send('fibonacci', n - 2, 300000, function (from, req) {
+            hubiquitus.send(id, 'fibonacci', n - 2, 300000, function (from, req) {
               setImmediate(callback, null, req.content);
             });
           }, 0);
         },
         function (callback) {
           setTimeout(function () {
-            _this.send('fibonacci', n - 1, 300000, function (from, req) {
+            hubiquitus.send(id, 'fibonacci', n - 1, 300000, function (from, req) {
               setImmediate(callback, null, req.content);
             });
           }, 0);

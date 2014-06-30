@@ -19,15 +19,15 @@ hubiquitus.start()
   .send('linus', 'steve', 'Bill might need your iWings :) !');
 
 function steve(req) {
-  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
-  this.send('bill', 'hi, Bill would like to try my iWings !', 1000, function (err, res) {
+  logger.info(req.to + '> from ' + req.from + ' : ' + req.content);
+  hubiquitus.send(req.to, 'bill', 'hi, Bill would like to try my iWings !', 1000, function (err, res) {
     if (err) return logger.err(err);
-    logger.info(this.id + '> from ' + res.from + ' : ' + res.content);
+    logger.info(req.to + '> from ' + res.from + ' : ' + res.content);
     hubiquitus.stop();
   }.bind(this));
 }
 
 function bill(req) {
-  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+  logger.info(req.to + '> from ' + req.from + ' : ' + req.content);
   req.reply(null, 'Yes thanks Steve, you\'re great man. !');
 }

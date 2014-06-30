@@ -23,7 +23,7 @@ hubiquitus.start()
   .send('god', 'linus', 'hello');
 
 function linus(req) {
-  logger.info(this.id + '> from ' + req.from + ' : ' + req.content);
+  logger.info(req.to + '> from ' + req.from + ' : ' + req.content);
   req.reply(null, 'hi !');
 }
 

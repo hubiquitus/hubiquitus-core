@@ -10,7 +10,7 @@ module.exports = function () {
 
   return function (req) {
     if (++count%1000 === 0)
-      logger.info('[' + this.id + '] ' + req.content + ' from ' + req.from + ' (' + count + ' total)');
-    this.send(req.from, 'ping');
+      logger.info('[' + req.to + '] ' + req.content + ' from ' + req.from + ' (' + count + ' total)');
+    hubiquitus.send(req.to, req.from, 'ping');
   };
 };

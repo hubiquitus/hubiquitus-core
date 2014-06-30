@@ -34,11 +34,9 @@ describe('framework patterns', function () {
 
       app.addActor('sample', function (req) {
         count++;
-        var _this = this;
         process.nextTick(function () {
           should.exist(req, 'actor sample : req should exist');
           req.should.have.keys('from', 'to', 'content', 'timeout', 'cb', 'date', 'id', 'headers', 'reply');
-          _this.id.should.be.eql('sample', 'actor sample : this.id should be "sample"');
           req.from.should.be.eql('tmp', 'actor sample : req.from should be "tmp"');
           req.to.should.be.eql('sample', 'actor sample : req.to should be "sample"');
           req.content.should.be.eql('hello', 'actor sample : req.content should be "hello"');

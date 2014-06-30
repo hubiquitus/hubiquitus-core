@@ -11,9 +11,9 @@ module.exports = function () {
   var count = 0;
 
   return function (req) {
-    logger.info('[' + this.id + '] ' + req.content + ' from ' + req.from + ' (' + (++count) + ' total)');
+    logger.info('[' + req.to + '] ' + req.content + ' from ' + req.from + ' (' + (++count) + ' total)');
     setTimeout((function () {
-      this.send(req.from, 'PING');
+      hubiquitus.send(req.to, req.from, 'PING');
     }).bind(this), parseInt(Math.random() * 490) + 10);
   };
 };
