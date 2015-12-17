@@ -1,7 +1,7 @@
 {
   "name": "hubiquitus-core",
   "description": "Actor model for Hubiquitus",
-  "version": "0.8.16",
+  "version": "0.8.17",
   "homepage": "http://www.hubiquitus.com",
   "repository": {
     "type": "git",
@@ -15,7 +15,8 @@
     "lodash": "2.2.*",
     "tv4": "1.0.11",
     "async": "0.2.*",
-    "node-uuid": "1.4.*"
+    "node-uuid": "1.4.*",
+    "semver": "5.1.*"
   },
   "devDependencies": {
     "jshint": "2.3.*",
