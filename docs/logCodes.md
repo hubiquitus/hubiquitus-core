@@ -60,6 +60,7 @@
 * hub-52  application
 * hub-53  application
 * hub-54  discovery
+* hub-55  discovery
 * hub-100 adapters/remote
 * hub-101 adapters/remote
 * hub-102 UNUSED
