@@ -165,6 +165,7 @@ Available options :
   - discoveryAddr {String}
   - discoveryPort {Number}
   - ip {String}
+  - podAddrs {String[]}   
 
 Example :
 
