@@ -12,3 +12,8 @@ app.utils = {
   uuid: require('./lib/utils/uuid')
 };
 module.exports = app;
+
+process.on('SIGUSR2', function() {
+  console.log(new  Date());
+  console.log(JSON.stringify(app.debugActors(), null, 2));
+});
