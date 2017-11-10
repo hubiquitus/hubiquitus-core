@@ -8,7 +8,7 @@ describe('ip module', function () {
   var stubNetworkInterfaces;
 
   before(function () {
-    stubNetworkInterfaces = sinon.stub(os, 'networkInterfaces').callsFake(function () {
+    stubNetworkInterfaces = sinon.stub(os, 'networkInterfaces', function () {
       return {
         lo: [
           {address: '127.0.0.1', family: 'IPv4', internal: true},
