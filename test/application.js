@@ -240,11 +240,11 @@ describe('framework patterns', function () {
             counts.resReceived.should.be.eql(1, 'One response should have been received');
 
             setTimeout(function () {
-              counts.discoveryStart.should.be.eql(0, 'No discovery should have been started');
-              counts.discoveryStop.should.be.eql(0, 'No discovery should have been stopped');
-              counts.discovery.should.be.eql(0, 'No discoveries should have been processed');
+              counts.discoveryStart.should.be.eql(1, 'One discovery should have been started');
+              counts.discoveryStop.should.be.eql(1, 'One discovery should have been stopped');
+              counts.discovery.should.be.eql(3, '4 discoveries should have been processed');
               done();
-            }, 1000);
+            }, 310);
           });
         });
       });
