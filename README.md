@@ -166,12 +166,6 @@ Available options :
   - discoveryPort {Number}
   - ip {String}
   - podAddrs {String[]}   
-  - podDiscoveryPort {Number}
-
-Typical usage :
-  - multicast discovery :
-   - discoveryAddr
-   - ip
 
 Example :
 
