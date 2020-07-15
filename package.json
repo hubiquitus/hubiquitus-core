@@ -12,7 +12,7 @@
     "node": ">0.10.0"
   },
   "dependencies": {
-    "lodash": "2.4.*",
+    "lodash": "4.17.*",
     "tv4": "1.0.11",
     "node-uuid": "1.4.*",
     "toobusy": "0.2.4",
